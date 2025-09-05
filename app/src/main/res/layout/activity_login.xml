@@ -116,7 +116,8 @@
                 app:boxStrokeColor="#4CAF50"
                 app:hintTextColor="#4CAF50"
                 app:startIconDrawable="@drawable/ic_email"
-                app:startIconTint="#4CAF50">
+                app:startIconTint="#4CAF50"
+                android:textColorHint="#4CAF50">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_email_login"
@@ -126,7 +127,7 @@
                     android:paddingStart="48dp"
                     android:paddingLeft="16dp"
                     android:textColor="#2E7D5A"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -146,7 +147,8 @@
                 app:endIconTint="#4CAF50"
                 app:hintTextColor="#4CAF50"
                 app:startIconDrawable="@drawable/ic_lock"
-                app:startIconTint="#4CAF50">
+                app:startIconTint="#4CAF50"
+                android:textColorHint="#4CAF50">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_password_login"

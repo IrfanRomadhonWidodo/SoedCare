@@ -20,8 +20,17 @@ class LoginActivity : AppCompatActivity() {
 
         // Hilangkan ActionBar di atas
         supportActionBar?.hide()
-
         auth = FirebaseAuth.getInstance()
+
+        // Cek apakah user sudah login
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            // User sudah login, langsung ke MainActivity
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish() // Tutup LoginActivity
+        }
 
         // Tombol menuju Register
         binding.tvToRegister.setOnClickListener {
