@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "849222442728",
+    "project_id": "soedcare",
+    "storage_bucket": "soedcare.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:849222442728:android:fe6c96e7ee1eb1deedf35d",
+        "android_client_info": {
+          "package_name": "com.fanalbin.soedcare"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRLhEmOkDNlzc-fhUJuqrFaVhdWe87jKg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

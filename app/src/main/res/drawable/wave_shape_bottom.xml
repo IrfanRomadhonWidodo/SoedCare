@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="360dp"
+    android:height="120dp"
+    android:viewportWidth="360"
+    android:viewportHeight="120">
+
+    <!-- Wave layer belakang -->
+    <path
+        android:fillColor="#81C784"
+        android:fillAlpha="0.3"
+        android:pathData="M0,120 L360,120 L360,40 C300,20 240,60 180,40 C120,20 60,60 0,40 Z" />
+
+    <!-- Wave layer depan -->
+    <path
+        android:fillColor="#A5D6A7"
+        android:fillAlpha="0.5"
+        android:pathData="M0,120 L360,120 L360,60 C300,40 240,80 180,60 C120,40 60,80 0,60 Z" />
+</vector>
