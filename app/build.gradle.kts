@@ -7,17 +7,14 @@ plugins {
 android {
     namespace = "com.fanalbin.soedcare"
     compileSdk = 36
-
     defaultConfig {
         applicationId = "com.fanalbin.soedcare"
         minSdk = 28
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
-
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -40,7 +37,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -62,7 +58,5 @@ dependencies {
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
     implementation("de.hdodenhof:circleimageview:3.1.0")
     implementation("com.google.firebase:firebase-storage")
-    implementation ("com.google.firebase:firebase-database:20.0.4")
-
-
+    implementation("com.google.firebase:firebase-database:21.0.0")
 }

@@ -13,5 +13,8 @@
     <color name="field_background">#1E1E1E</color> <!-- abu gelap -->
     <color name="field_text">#E0E0E0</color>
     <color name="profile_circle_background">#424242</color>
+    <color name="green_primary">#4CAF50</color>
+    <color name="green_dark">#2E7D32</color>
+    <color name="green_light">#81C784</color>
 
 </resources>

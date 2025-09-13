@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +17,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.bumptech.glide.Glide
 import com.fanalbin.soedcare.R
 import com.google.android.material.textfield.TextInputEditText
 import android.util.Base64
@@ -26,6 +26,7 @@ class EditProfileFragment : Fragment() {
     private val profileViewModel: ProfileViewModel by viewModels()
     private lateinit var progressDialog: ProgressDialog
     private var selectedImageUri: Uri? = null
+    private val TAG = "EditProfileFragment"
 
     private val galleryLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -42,7 +43,6 @@ class EditProfileFragment : Fragment() {
             if (result.resultCode == android.app.Activity.RESULT_OK) {
                 val bitmap = result.data?.extras?.get("data") as? android.graphics.Bitmap
                 bitmap?.let {
-                    // Simpan bitmap ke Uri sementara
                     selectedImageUri = getImageUriFromBitmap(it)
                     view?.findViewById<ImageView>(R.id.image_profile)?.setImageBitmap(it)
                 }
@@ -69,11 +69,13 @@ class EditProfileFragment : Fragment() {
         val btnSave = view.findViewById<Button>(R.id.btn_save)
         val txtChangePicture = view.findViewById<TextView>(R.id.txt_change_picture)
 
-        // Ambil data dari intent yang dikirim dari ProfileFragment
+        // Ambil data dari arguments
         val fullName = arguments?.getString("EXTRA_FULL_NAME") ?: ""
         val phone = arguments?.getString("EXTRA_PHONE") ?: ""
         val address = arguments?.getString("EXTRA_ADDRESS") ?: ""
         val profileImageBase64 = arguments?.getString("EXTRA_PROFILE_IMAGE_BASE64") ?: ""
+
+        Log.d(TAG, "Received data - fullName: $fullName, phone: $phone, address: $address")
 
         // Set data ke view
         editFullName.setText(fullName)
@@ -87,6 +89,7 @@ class EditProfileFragment : Fragment() {
                 val bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
                 imageProfile.setImageBitmap(bitmap)
             } catch (e: Exception) {
+                Log.e(TAG, "Error decoding image", e)
                 imageProfile.setImageResource(R.drawable.ic_profile)
             }
         } else {
@@ -107,6 +110,8 @@ class EditProfileFragment : Fragment() {
             val newFullName = editFullName.text.toString().trim()
             val newPhone = editPhone.text.toString().trim()
             val newAddress = editAddress.text.toString().trim()
+
+            Log.d(TAG, "Saving data - fullName: $newFullName, phone: $newPhone, address: $newAddress")
 
             // Validasi input
             if (newFullName.isEmpty()) {
@@ -134,12 +139,12 @@ class EditProfileFragment : Fragment() {
                 requireContext()
             ) { success, message ->
                 progressDialog.dismiss()
-
                 if (success) {
                     Toast.makeText(requireContext(), "Profile updated successfully", Toast.LENGTH_SHORT).show()
                     activity?.onBackPressed()
                 } else {
-                    Toast.makeText(requireContext(), "Failed to update profile: $message", Toast.LENGTH_SHORT).show()
+                    Log.e(TAG, "Update failed: $message")
+                    Toast.makeText(requireContext(), "Failed to update profile: $message", Toast.LENGTH_LONG).show()
                 }
             }
         }

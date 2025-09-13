@@ -6,28 +6,37 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Base64
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.fanalbin.soedcare.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.* // Ganti import
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 
 class ProfileViewModel : ViewModel() {
     private val auth = FirebaseAuth.getInstance()
-    private val database = FirebaseDatabase.getInstance() // Ganti dengan Realtime Database
+    private val firestore = FirebaseFirestore.getInstance()
+    private val TAG = "ProfileViewModel"
+
     private val _userName = MutableLiveData<String>()
     val userName: LiveData<String> = _userName
+
     private val _userEmail = MutableLiveData<String>()
     val userEmail: LiveData<String> = _userEmail
+
     private val _userFullName = MutableLiveData<String>()
     val userFullName: LiveData<String> = _userFullName
+
     private val _userPhone = MutableLiveData<String>()
     val userPhone: LiveData<String> = _userPhone
+
     private val _userAddress = MutableLiveData<String>()
     val userAddress: LiveData<String> = _userAddress
+
     private val _profileImageBase64 = MutableLiveData<String>()
     val profileImageBase64: LiveData<String> = _profileImageBase64
 
@@ -38,21 +47,24 @@ class ProfileViewModel : ViewModel() {
     fun loadUserProfile() {
         val currentUser = auth.currentUser
         if (currentUser != null) {
+            Log.d(TAG, "Loading profile for user: ${currentUser.uid}")
             val email = currentUser.email ?: ""
-            // Set default dulu supaya langsung muncul
+
+            // Set default values
             _userName.value = email.substringBefore("@").replaceFirstChar { it.uppercaseChar() }
             _userEmail.value = email
-            _profileImageBase64.value = "" // default icon
+            _profileImageBase64.value = ""
 
-            // Ganti dengan Realtime Database
-            val userRef = database.reference.child("users").child(currentUser.uid)
-            userRef.addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.exists()) {
-                        val name = snapshot.child("fullName").value?.toString() ?: ""
-                        val phone = snapshot.child("phone").value?.toString() ?: ""
-                        val address = snapshot.child("address").value?.toString() ?: ""
-                        val profileImageBase64 = snapshot.child("profileImageBase64").value?.toString() ?: ""
+            // Ambil data dari Firestore
+            firestore.collection("users").document(currentUser.uid)
+                .get()
+                .addOnSuccessListener { document ->
+                    if (document != null && document.exists()) {
+                        Log.d(TAG, "User document found")
+                        val name = document.getString("fullName") ?: ""
+                        val phone = document.getString("phone") ?: ""
+                        val address = document.getString("address") ?: ""
+                        val profileImageBase64 = document.getString("profileImageBase64") ?: ""
 
                         if (name.isNotEmpty()) {
                             _userName.value = name.replaceFirstChar { it.uppercaseChar() }
@@ -61,19 +73,41 @@ class ProfileViewModel : ViewModel() {
                         _userPhone.value = phone
                         _userAddress.value = address
                         _profileImageBase64.value = profileImageBase64
+                    } else {
+                        Log.d(TAG, "User document not found, creating new one")
+                        // Buat dokumen baru jika belum ada
+                        createUserDocument(currentUser.uid, email)
                     }
                 }
-
-                override fun onCancelled(error: DatabaseError) {
-                    // tetap pakai default
+                .addOnFailureListener { exception ->
+                    Log.e(TAG, "Error getting user document", exception)
                 }
-            })
         } else {
-            // user belum login
+            Log.d(TAG, "No authenticated user")
             _userName.value = "Guest"
             _userEmail.value = ""
             _profileImageBase64.value = ""
         }
+    }
+
+    private fun createUserDocument(uid: String, email: String) {
+        val userData = hashMapOf(
+            "email" to email,
+            "fullName" to "",
+            "phone" to "",
+            "address" to "",
+            "profileImageBase64" to "",
+            "createdAt" to System.currentTimeMillis()
+        )
+
+        firestore.collection("users").document(uid)
+            .set(userData)
+            .addOnSuccessListener {
+                Log.d(TAG, "User document created successfully")
+            }
+            .addOnFailureListener { e ->
+                Log.e(TAG, "Error creating user document", e)
+            }
     }
 
     fun updateUserProfile(
@@ -86,23 +120,26 @@ class ProfileViewModel : ViewModel() {
     ) {
         val currentUser = auth.currentUser
         if (currentUser != null) {
-            val userRef = database.reference.child("users").child(currentUser.uid)
+            Log.d(TAG, "Updating profile for user: ${currentUser.uid}")
+
+            val userRef = firestore.collection("users").document(currentUser.uid)
 
             // Jika ada gambar baru, konversi ke base64
             if (imageUri != null) {
                 try {
                     val base64String = imageUriToBase64(imageUri, context)
-                    // Update data ke Realtime Database dengan base64
                     updateUserData(userRef, fullName, phone, address, base64String, callback)
                 } catch (e: Exception) {
+                    Log.e(TAG, "Error processing image", e)
                     callback(false, "Failed to process image: ${e.message}")
                 }
             } else {
-                // Jika tidak ada gambar baru, gunakan base64 yang ada
+                // Gunakan base64 yang ada
                 val currentImageBase64 = _profileImageBase64.value ?: ""
                 updateUserData(userRef, fullName, phone, address, currentImageBase64, callback)
             }
         } else {
+            Log.e(TAG, "User not authenticated")
             callback(false, "User not authenticated")
         }
     }
@@ -110,53 +147,53 @@ class ProfileViewModel : ViewModel() {
     private fun imageUriToBase64(uri: Uri, context: Context): String {
         val inputStream: InputStream? = context.contentResolver.openInputStream(uri)
         val bitmap = BitmapFactory.decodeStream(inputStream)
+        inputStream?.close()
         return bitmapToBase64(bitmap)
     }
 
     private fun bitmapToBase64(bitmap: Bitmap): String {
         val byteArrayOutputStream = ByteArrayOutputStream()
-        // Kompresi gambar untuk mengurangi ukuran
         bitmap.compress(Bitmap.CompressFormat.JPEG, 70, byteArrayOutputStream)
         val byteArray = byteArrayOutputStream.toByteArray()
         return Base64.encodeToString(byteArray, Base64.DEFAULT)
     }
 
     private fun updateUserData(
-        userRef: DatabaseReference, // Ganti tipe parameter
+        userRef: com.google.firebase.firestore.DocumentReference,
         fullName: String,
         phone: String,
         address: String,
         profileImageBase64: String,
         callback: (Boolean, String) -> Unit
     ) {
-        // Buat HashMap untuk update
         val updates = HashMap<String, Any>()
         updates["fullName"] = fullName
         updates["phone"] = phone
         updates["address"] = address
         updates["profileImageBase64"] = profileImageBase64
-        updates["updatedAt"] = System.currentTimeMillis() // Ganti dengan timestamp biasa
+        updates["updatedAt"] = System.currentTimeMillis()
 
-        // Update data di Realtime Database
-        userRef.updateChildren(updates)
+        Log.d(TAG, "Updating document: ${userRef.path}")
+
+        userRef.set(updates, SetOptions.merge())
             .addOnSuccessListener {
-                // Update data di ViewModel
+                Log.d(TAG, "Profile updated successfully")
+                // Update LiveData
                 _userFullName.value = fullName
                 _userPhone.value = phone
                 _userAddress.value = address
                 _profileImageBase64.value = profileImageBase64
-                // Update userName untuk display
                 _userName.value = fullName.replaceFirstChar { it.uppercaseChar() }
                 callback(true, "Profile updated successfully")
             }
             .addOnFailureListener { e ->
+                Log.e(TAG, "Error updating profile", e)
                 callback(false, "Failed to update profile: ${e.message}")
             }
     }
 
     fun logout(context: Context) {
         auth.signOut()
-        // Arahkan ke halaman login
         val intent = Intent(context, LoginActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         context.startActivity(intent)
