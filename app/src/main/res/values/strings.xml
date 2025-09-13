@@ -3,4 +3,9 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="privacy_policy_text">
+    Your privacy policy text goes here...
+    This is a placeholder for your actual privacy policy content.
+    Make sure to include all necessary information about data collection, usage, and user rights.
+    </string>
 </resources>

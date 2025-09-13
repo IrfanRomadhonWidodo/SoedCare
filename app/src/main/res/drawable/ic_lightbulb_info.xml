@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Cahaya dari bohlam -->
+    <group>
+        <!-- Sinar atas -->
+        <path
+            android:pathData="M12,3 L12,5"
+            android:strokeColor="#4CAF50"
+            android:strokeWidth="1.5"
+            android:strokeLineCap="round"/>
+        <!-- Sinar kanan atas -->
+        <path
+            android:pathData="M17,5 L15.5,6.5"
+            android:strokeColor="#4CAF50"
+            android:strokeWidth="1.5"
+            android:strokeLineCap="round"/>
+        <!-- Sinar kanan -->
+        <path
+            android:pathData="M19,10 L17,10"
+            android:strokeColor="#4CAF50"
+            android:strokeWidth="1.5"
+            android:strokeLineCap="round"/>
+        <!-- Sinar kanan bawah -->
+        <path
+            android:pathData="M17,15 L15.5,13.5"
+            android:strokeColor="#4CAF50"
+            android:strokeWidth="1.5"
+            android:strokeLineCap="round"/>
+        <!-- Sinar kiri bawah -->
+        <path
+            android:pathData="M7,15 L8.5,13.5"
+            android:strokeColor="#4CAF50"
+            android:strokeWidth="1.5"
+            android:strokeLineCap="round"/>
+        <!-- Sinar kiri -->
+        <path
+            android:pathData="M5,10 L7,10"
+            android:strokeColor="#4CAF50"
+            android:strokeWidth="1.5"
+            android:strokeLineCap="round"/>
+        <!-- Sinar kiri atas -->
+        <path
+            android:pathData="M7,5 L8.5,6.5"
+            android:strokeColor="#4CAF50"
+            android:strokeWidth="1.5"
+            android:strokeLineCap="round"/>
+    </group>
+
+    <!-- Bohlam utama -->
+    <path
+        android:pathData="M12,6 C9.8,6 8,7.8 8,10 C8,11.7 9,13.1 10.5,13.8 L10.5,16 L13.5,16 L13.5,13.8 C15,13.1 16,11.7 16,10 C16,7.8 14.2,6 12,6 Z"
+        android:fillColor="#388E3C"
+        android:strokeColor="#388E3C"
+        android:strokeWidth="0.5"/>
+
+    <!-- Dasar bohlam -->
+    <path
+        android:pathData="M10,16 L14,16 L14,17 L10,17 Z"
+        android:fillColor="#388E3C"/>
+    <path
+        android:pathData="M10.5,17 L13.5,17 L13.5,18 L10.5,18 Z"
+        android:fillColor="#388E3C"/>
+
+    <!-- Garis artikel di bawah -->
+    <group>
+        <!-- Garis panjang -->
+        <path
+            android:pathData="M6,20 L18,20"
+            android:strokeColor="#388E3C"
+            android:strokeWidth="1"
+            android:strokeLineCap="round"/>
+        <!-- Garis sedang -->
+        <path
+            android:pathData="M8,21.5 L16,21.5"
+            android:strokeColor="#388E3C"
+            android:strokeWidth="1"
+            android:strokeLineCap="round"/>
+        <!-- Garis pendek -->
+        <path
+            android:pathData="M10,23 L14,23"
+            android:strokeColor="#388E3C"
+            android:strokeWidth="1"
+            android:strokeLineCap="round"/>
+    </group>
+
+    <!-- Efek cahaya di dalam bohlam -->
+    <path
+        android:pathData="M12,8 m-1.5,0 a1.5,1.5 0 1,0 3,0 a1.5,1.5 0 1,0 -3,0"
+        android:fillColor="#81C784"/>
+
+    <!-- Bayangan halus untuk bohlam -->
+    <path
+        android:pathData="M12,6 C9.8,6 8,7.8 8,10 C8,11.7 9,13.1 10.5,13.8 L10.5,16 L13.5,16 L13.5,13.8 C15,13.1 16,11.7 16,10 C16,7.8 14.2,6 12,6 Z"
+        android:strokeColor="#1B5E20"
+        android:strokeWidth="0.5"
+        android:fillColor="@null"
+        android:strokeAlpha="0.3"/>
+</vector>

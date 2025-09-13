@@ -1,0 +1,913 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/white"
+    android:clipToPadding="false">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:clipToPadding="false">
+        <!-- Header dengan background hijau -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/green_500"
+            android:paddingTop="32dp"
+            android:paddingBottom="32dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Kebijakan Privasi"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:layout_marginBottom="8dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Terakhir diperbarui: 12 September 2025"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:alpha="0.8"/>
+        </LinearLayout>
+        <!-- Konten utama -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+            <!-- Bagian 1: Pengumpulan Informasi -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardUseCompatPadding="true"
+                android:layout_marginBottom="5dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/white"
+                app:strokeColor="#E0E0E0"
+                app:strokeWidth="1dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:id="@+id/header_info_collection"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="20dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical">
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/ic_info_collection"
+                            android:layout_marginEnd="16dp"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="1. Pengumpulan Informasi"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/green_700"/>
+                        <ImageView
+                            android:id="@+id/arrow_info_collection"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_expand_more"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/content_info_collection"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp"
+                        android:visibility="gone"
+                        android:background="#F9F9F9">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Kami mengumpulkan informasi untuk menyediakan layanan yang lebih baik kepada semua pengguna kami. Jenis informasi yang kami kumpulkan meliputi:"
+                            android:textSize="16sp"
+                            android:textColor="#333333"
+                            android:layout_marginBottom="12dp"/>
+
+                        <!-- Poin pertama -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="8dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="•"
+                                android:textSize="16sp"
+                                android:textColor="#333333"
+                                android:layout_marginEnd="8dp"/>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Informasi pribadi (nama, email, nomor telepon)"
+                                android:textSize="16sp"
+                                android:textColor="#333333"/>
+                        </LinearLayout>
+
+                        <!-- Poin kedua -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="8dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="•"
+                                android:textSize="16sp"
+                                android:textColor="#333333"
+                                android:layout_marginEnd="8dp"/>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Informasi demografis"
+                                android:textSize="16sp"
+                                android:textColor="#333333"/>
+                        </LinearLayout>
+
+                        <!-- Poin ketiga -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="8dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="•"
+                                android:textSize="16sp"
+                                android:textColor="#333333"
+                                android:layout_marginEnd="8dp"/>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Informasi penggunaan aplikasi"
+                                android:textSize="16sp"
+                                android:textColor="#333333"/>
+                        </LinearLayout>
+
+                        <!-- Poin keempat -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="•"
+                                android:textSize="16sp"
+                                android:textColor="#333333"
+                                android:layout_marginEnd="8dp"/>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Informasi perangkat dan jaringan"
+                                android:textSize="16sp"
+                                android:textColor="#333333"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <!-- Bagian 2: Penggunaan Informasi -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardUseCompatPadding="true"
+                android:layout_marginBottom="5dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/white"
+                app:strokeColor="#E0E0E0"
+                app:strokeWidth="1dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:id="@+id/header_info_usage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="20dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical">
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/ic_info_usage"
+                            android:layout_marginEnd="16dp"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="2. Penggunaan Informasi"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/green_700"/>
+                        <ImageView
+                            android:id="@+id/arrow_info_usage"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_expand_more" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/content_info_usage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp"
+                        android:visibility="gone"
+                        android:background="#F9F9F9">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Informasi yang kami kumpulkan digunakan untuk berbagai tujuan, antara lain:"
+                            android:textSize="16sp"
+                            android:textColor="#333333"
+                            android:layout_marginBottom="12dp"/>
+
+                        <!-- Poin pertama -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="8dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="•"
+                                android:textSize="16sp"
+                                android:textColor="#333333"
+                                android:layout_marginEnd="8dp"/>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Menyediakan dan memelihara layanan kami"
+                                android:textSize="16sp"
+                                android:textColor="#333333"/>
+                        </LinearLayout>
+
+                        <!-- Poin kedua -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="8dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="•"
+                                android:textSize="16sp"
+                                android:textColor="#333333"
+                                android:layout_marginEnd="8dp"/>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Memperbaiki, mempersonalisasi, dan mengembangkan layanan"
+                                android:textSize="16sp"
+                                android:textColor="#333333"/>
+                        </LinearLayout>
+
+                        <!-- Poin ketiga -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="8dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="•"
+                                android:textSize="16sp"
+                                android:textColor="#333333"
+                                android:layout_marginEnd="8dp"/>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Memahami bagaimana pengguna menggunakan layanan kami"
+                                android:textSize="16sp"
+                                android:textColor="#333333"/>
+                        </LinearLayout>
+
+                        <!-- Poin keempat -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="8dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="•"
+                                android:textSize="16sp"
+                                android:textColor="#333333"
+                                android:layout_marginEnd="8dp"/>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Mengembangkan produk, layanan, fitur, dan fungsi baru"
+                                android:textSize="16sp"
+                                android:textColor="#333333"/>
+                        </LinearLayout>
+
+                        <!-- Poin kelima -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="•"
+                                android:textSize="16sp"
+                                android:textColor="#333333"
+                                android:layout_marginEnd="8dp"/>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Berkomunikasi dengan pengguna"
+                                android:textSize="16sp"
+                                android:textColor="#333333"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <!-- Bagian 3: Perlindungan Informasi -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardUseCompatPadding="true"
+                android:layout_marginBottom="5dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/white"
+                app:strokeColor="#E0E0E0"
+                app:strokeWidth="1dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:id="@+id/header_info_protection"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="20dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical">
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/ic_shield"
+                            android:layout_marginEnd="16dp"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="3. Perlindungan Informasi"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/green_700"/>
+                        <ImageView
+                            android:id="@+id/arrow_info_protection"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_expand_more" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/content_info_protection"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp"
+                        android:visibility="gone"
+                        android:background="#F9F9F9">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Kami mengimplementasikan berbagai langkah keamanan untuk menjaga keamanan informasi pribadi Anda saat Anda memasukkan, mengirimkan, atau mengakses informasi pribadi Anda."
+                            android:textSize="16sp"
+                            android:textColor="#333333"
+                            android:layout_marginBottom="12dp"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Langkah-langkah keamanan ini termasuk enkripsi data, autentikasi pengguna, dan prosedur keamanan fisik dan elektronik yang ketat."
+                            android:textSize="16sp"
+                            android:textColor="#333333"
+                            android:lineSpacingMultiplier="1.3"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <!-- Bagian 4: Bagikan Informasi -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardUseCompatPadding="true"
+                android:layout_marginBottom="5dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/white"
+                app:strokeColor="#E0E0E0"
+                app:strokeWidth="1dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:id="@+id/header_info_sharing"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="20dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical">
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/ic_share"
+                            android:layout_marginEnd="16dp"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="4. Bagikan Informasi"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/green_700"/>
+                        <ImageView
+                            android:id="@+id/arrow_info_sharing"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_expand_more" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/content_info_sharing"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp"
+                        android:visibility="gone"
+                        android:background="#F9F9F9">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Kami tidak menjual, memperdagangkan, atau mentransfer informasi pribadi Anda kepada pihak ketiga tanpa persetujuan Anda, kecuali dalam kondisi berikut:"
+                            android:textSize="16sp"
+                            android:textColor="#333333"
+                            android:layout_marginBottom="12dp"/>
+
+                        <!-- Poin pertama -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="8dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="•"
+                                android:textSize="16sp"
+                                android:textColor="#333333"
+                                android:layout_marginEnd="8dp"/>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Ketika diwajibkan oleh hukum"
+                                android:textSize="16sp"
+                                android:textColor="#333333"/>
+                        </LinearLayout>
+
+                        <!-- Poin kedua -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="8dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="•"
+                                android:textSize="16sp"
+                                android:textColor="#333333"
+                                android:layout_marginEnd="8dp"/>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Untuk melindungi hak, properti, atau keselamatan kami atau pengguna lain"
+                                android:textSize="16sp"
+                                android:textColor="#333333"/>
+                        </LinearLayout>
+
+                        <!-- Poin ketiga -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="8dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="•"
+                                android:textSize="16sp"
+                                android:textColor="#333333"
+                                android:layout_marginEnd="8dp"/>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Dengan mitra layanan tepercaya yang membantu kami mengoperasikan layanan kami"
+                                android:textSize="16sp"
+                                android:textColor="#333333"/>
+                        </LinearLayout>
+
+                        <!-- Poin keempat -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="•"
+                                android:textSize="16sp"
+                                android:textColor="#333333"
+                                android:layout_marginEnd="8dp"/>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Dengan persetujuan Anda"
+                                android:textSize="16sp"
+                                android:textColor="#333333"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <!-- Bagian 5: Hak Privasi Anda -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardUseCompatPadding="true"
+                android:layout_marginBottom="5dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/white"
+                app:strokeColor="#E0E0E0"
+                app:strokeWidth="1dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:id="@+id/header_privacy_rights"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="20dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical">
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/ic_rights"
+                            android:layout_marginEnd="16dp"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="5. Hak Privasi Anda"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/green_700"/>
+                        <ImageView
+                            android:id="@+id/arrow_privacy_rights"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_expand_more" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/content_privacy_rights"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp"
+                        android:visibility="gone"
+                        android:background="#F9F9F9">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Anda memiliki hak tertentu terkait informasi pribadi Anda, antara lain:"
+                            android:textSize="16sp"
+                            android:textColor="#333333"
+                            android:layout_marginBottom="12dp"/>
+
+                        <!-- Poin pertama -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="8dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="•"
+                                android:textSize="16sp"
+                                android:textColor="#333333"
+                                android:layout_marginEnd="8dp"/>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Hak untuk mengakses informasi pribadi Anda"
+                                android:textSize="16sp"
+                                android:textColor="#333333"/>
+                        </LinearLayout>
+
+                        <!-- Poin kedua -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="8dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="•"
+                                android:textSize="16sp"
+                                android:textColor="#333333"
+                                android:layout_marginEnd="8dp"/>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Hak untuk memperbaiki informasi pribadi Anda"
+                                android:textSize="16sp"
+                                android:textColor="#333333"/>
+                        </LinearLayout>
+
+                        <!-- Poin ketiga -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="8dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="•"
+                                android:textSize="16sp"
+                                android:textColor="#333333"
+                                android:layout_marginEnd="8dp"/>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Hak untuk menghapus informasi pribadi Anda"
+                                android:textSize="16sp"
+                                android:textColor="#333333"/>
+                        </LinearLayout>
+
+                        <!-- Poin keempat -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="8dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="•"
+                                android:textSize="16sp"
+                                android:textColor="#333333"
+                                android:layout_marginEnd="8dp"/>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Hak untuk membatasi pemrosesan informasi pribadi Anda"
+                                android:textSize="16sp"
+                                android:textColor="#333333"/>
+                        </LinearLayout>
+
+                        <!-- Poin kelima -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="•"
+                                android:textSize="16sp"
+                                android:textColor="#333333"
+                                android:layout_marginEnd="8dp"/>
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Hak untuk menarik persetujuan Anda"
+                                android:textSize="16sp"
+                                android:textColor="#333333"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <!-- Bagian 6: Perubahan Kebijakan -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardUseCompatPadding="true"
+                android:layout_marginBottom="5dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/white"
+                app:strokeColor="#E0E0E0"
+                app:strokeWidth="1dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:id="@+id/header_policy_changes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="20dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical">
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/ic_update"
+                            android:layout_marginEnd="16dp"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="6. Perubahan Kebijakan"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/green_700"/>
+                        <ImageView
+                            android:id="@+id/arrow_policy_changes"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_expand_more" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/content_policy_changes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp"
+                        android:visibility="gone"
+                        android:background="#F9F9F9">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Kami dapat memperbarui kebijakan privasi kami dari waktu ke waktu. Anda disarankan untuk meninjau halaman ini secara berkala untuk setiap perubahan."
+                            android:textSize="16sp"
+                            android:textColor="#333333"
+                            android:layout_marginBottom="12dp"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Perubahan pada kebijakan privasi ini akan berlaku saat dipublikasikan di halaman ini."
+                            android:textSize="16sp"
+                            android:textColor="#333333"
+                            android:lineSpacingMultiplier="1.3"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <!-- Bagian 7: Hubungi Kami -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardUseCompatPadding="true"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/white"
+                app:strokeColor="#E0E0E0"
+                app:strokeWidth="1dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:id="@+id/header_contact_us"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="20dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical">
+                        <ImageView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/ic_contact"
+                            android:layout_marginEnd="16dp"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="7. Hubungi Kami"
+                            android:textSize="18sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/green_700"/>
+                        <ImageView
+                            android:id="@+id/arrow_contact_us"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_expand_more" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/content_contact_us"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp"
+                        android:visibility="gone"
+                        android:background="#F9F9F9">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Jika Anda memiliki pertanyaan tentang kebijakan privasi ini, silakan hubungi kami:"
+                            android:textSize="16sp"
+                            android:textColor="#333333"
+                            android:layout_marginBottom="12dp"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Email: privacy@soedcare.com\nTelepon: (021) 1234-5678\nAlamat: Jl. Pendidikan No. 123, Purbalingga"
+                            android:textSize="16sp"
+                            android:textColor="#333333"
+                            android:lineSpacingMultiplier="1.3"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <!-- Footer -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardUseCompatPadding="true"
+                android:orientation="vertical"
+                android:padding="24dp"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="© 2025 SoedCare. Hak Cipta Dilindungi."
+                    android:textSize="14sp"
+                    android:textColor="#757575"
+                    android:gravity="center"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

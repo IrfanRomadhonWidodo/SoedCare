@@ -11,8 +11,14 @@
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
 
+
+
         <!-- Status bar -->
-        <item name="android:statusBarColor">@android:color/white</item>
+        <item name="android:statusBarColor">@color/green_500</item>
         <item name="android:windowLightStatusBar">true</item>
+
+        <!-- ✅ Tambahan agar EditText tetap abu-abu di dark mode -->
+        <item name="android:editTextColor">#333333</item>
+        <item name="android:textColorPrimary">#333333</item>
     </style>
 </resources>

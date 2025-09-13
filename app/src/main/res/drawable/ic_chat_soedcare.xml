@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Background gelembung chat -->
+    <path
+        android:pathData="M4,12 Q4,8 8,8 L16,8 Q20,8 20,12 L20,16 Q20,20 16,20 L10,20 L6,22 L6,20 Q4,20 4,16 Z"
+        android:fillColor="#E8F5E9"
+        android:strokeColor="#388E3C"
+        android:strokeWidth="1.2"/>
+
+    <!-- Header chat -->
+    <path
+        android:pathData="M4,12 L20,12 L20,14 L4,14 Z"
+        android:fillColor="#388E3C"/>
+
+    <!-- Garis teks pertama -->
+    <path
+        android:pathData="M7,16 L13,16"
+        android:strokeColor="#388E3C"
+        android:strokeWidth="1"
+        android:strokeLineCap="round"/>
+
+    <!-- Garis teks kedua -->
+    <path
+        android:pathData="M7,18 L15,18"
+        android:strokeColor="#388E3C"
+        android:strokeWidth="1"
+        android:strokeLineCap="round"/>
+
+    <!-- Titik-titik typing indicator -->
+    <group>
+        <path
+            android:pathData="M16,16.5 m-0.7,0 a0.7,0.7 0 1,0 1.4,0 a0.7,0.7 0 1,0 -1.4,0"
+            android:fillColor="#4CAF50"/>
+        <path
+            android:pathData="M18,16.5 m-0.7,0 a0.7,0.7 0 1,0 1.4,0 a0.7,0.7 0 1,0 -1.4,0"
+            android:fillColor="#4CAF50"/>
+        <path
+            android:pathData="M20,16.5 m-0.7,0 a0.7,0.7 0 1,0 1.4,0 a0.7,0.7 0 1,0 -1.4,0"
+            android:fillColor="#4CAF50"/>
+    </group>
+
+    <!-- Notifikasi badge -->
+    <path
+        android:pathData="M18,7 m-3,0 a3,3 0 1,0 6,0 a3,3 0 1,0 -6,0"
+        android:fillColor="#F44336"/>
+
+    <!-- Efek highlight pada badge -->
+    <path
+        android:pathData="M18,5 m-1,0 a1,1 0 1,0 2,0 a1,1 0 1,0 -2,0"
+        android:fillColor="#FFCDD2"/>
+
+    <!-- Bayangan halus -->
+    <path
+        android:pathData="M4,12 Q4,8 8,8 L16,8 Q20,8 20,12 L20,16 Q20,20 16,20 L10,20 L6,22 L6,20 Q4,20 4,16 Z"
+        android:strokeColor="#1B5E20"
+        android:strokeWidth="0.5"
+        android:fillColor="@null"/>
+</vector>
