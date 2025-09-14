@@ -11,12 +11,20 @@
     <color name="green_700">#388E3C</color>
     <color name="blue_500">#2196F3</color>
     <color name="field_background">#1E1E1E</color> <!-- abu gelap -->
-    <color name="field_text">#E0E0E0</color>
+    <color name="field_text">#575555</color>
     <color name="profile_circle_background">#424242</color>
     <color name="green_primary">#4CAF50</color>
     <color name="green_dark">#2E7D32</color>
     <color name="green_light">#81C784</color>
     <color name="grey_600">#1F261F</color>
+    <color name="gray">#808080</color>
+    <!-- Tambahkan warna abu-abu untuk tombol disabled -->
+    <color name="disabled_button_light">#808080</color>
+    <color name="disabled_button_dark">#424242</color>
+    <color name="gray_disabled">#9E9E9E</color>
+    <color name="green_pressed">#43A047</color>
+
+
 
 
 

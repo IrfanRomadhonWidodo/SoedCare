@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="disabled_button_dark">#555555</color> <!-- abu gelap untuk dark mode -->
+    <color name="green_primary">#4CAF50</color>
+    <color name="green_pressed">#388E3C</color> <!-- Lebih gelap lagi di dark mode -->
+</resources>
