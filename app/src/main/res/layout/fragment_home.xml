@@ -244,7 +244,7 @@
                     </LinearLayout>
                     <!-- Tanya Soedcare -->
                     <LinearLayout
-                        android:id="@+id/ask_clinician_service"
+                        android:id="@+id/ask_soedcare"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -278,7 +278,7 @@
                     </LinearLayout>
                     <!-- Info & Artikel -->
                     <LinearLayout
-                        android:id="@+id/info_article_service"
+                        android:id="@+id/info_artikel"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -319,7 +319,7 @@
                     android:weightSum="3">
                     <!-- Isi Hasil Pengukuran -->
                     <LinearLayout
-                        android:id="@+id/measurement_service"
+                        android:id="@+id/antrian_service"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -360,7 +360,7 @@
                     </LinearLayout>
                     <!-- Pilih Fasilitas Kesehatan -->
                     <LinearLayout
-                        android:id="@+id/health_facility_service"
+                        android:id="@+id/faskes_service"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

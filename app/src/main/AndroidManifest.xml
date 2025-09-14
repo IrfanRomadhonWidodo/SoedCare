@@ -53,6 +53,25 @@
         <activity
             android:name=".ui.profile.ProfileActivity"
             android:theme="@style/Theme.SoedCare"/>
+        <activity
+            android:name=".ArtikelActivity"
+            android:label="Info Artikel"
+            android:theme="@style/Theme.SoedCare" />
+
+        <activity
+            android:name=".BookingActivity"
+            android:label="Booking Layanan"
+            android:theme="@style/Theme.SoedCare" />
+
+        <activity
+            android:name=".AntrianActivity"
+            android:label="Cek Antrian"
+            android:theme="@style/Theme.SoedCare" />
+
+        <activity
+            android:name=".FaskesActivity"
+            android:label="Fasilitas Kesehatan"
+            android:theme="@style/Theme.SoedCare" />
 
     </application>
 </manifest>

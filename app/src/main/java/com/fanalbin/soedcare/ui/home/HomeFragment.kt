@@ -9,12 +9,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
 import com.fanalbin.soedcare.R
 import com.fanalbin.soedcare.databinding.FragmentHomeBinding
 import com.fanalbin.soedcare.ui.profile.UserProfileViewModel
+import com.fanalbin.soedcare.ArtikelActivity
+import com.fanalbin.soedcare.BookingActivity
+import com.fanalbin.soedcare.AntrianActivity
+import com.fanalbin.soedcare.FaskesActivity // Tambahkan import ini
 import android.os.Handler
 import android.os.Looper
 import androidx.viewpager2.widget.ViewPager2
@@ -27,7 +32,6 @@ class HomeFragment : Fragment() {
     private lateinit var viewPager: ViewPager2
     private lateinit var handler: Handler
     private lateinit var runnable: Runnable
-
     // Gunakan activityViewModels untuk berbagi ViewModel antar fragment
     private val userProfileViewModel: UserProfileViewModel by activityViewModels()
 
@@ -53,20 +57,18 @@ class HomeFragment : Fragment() {
 
         // Menampilkan tanggal dan waktu
         updateDateTime()
-
         viewPager = binding.root.findViewById(com.fanalbin.soedcare.R.id.viewpager_services)
         setupAutoSwipe()
+
         return root
     }
 
     private fun updateProfileImage(imageView: ImageView, imageBase64: String) {
         Log.d("HomeFragment", "Updating profile image, length: ${imageBase64.length}")
-
         if (imageBase64.isNotEmpty()) {
             try {
                 val decodedString = Base64.decode(imageBase64, Base64.DEFAULT)
                 val bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
-
                 // Gunakan Glide untuk memuat gambar bitmap
                 Glide.with(requireContext())
                     .load(bitmap)
@@ -134,11 +136,40 @@ class HomeFragment : Fragment() {
         handler.postDelayed(runnable, 3000)
     }
 
-
     override fun onResume() {
         super.onResume()
         // Refresh data profil saat fragment kembali ditampilkan
         userProfileViewModel.refreshUserProfile()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        // Gunakan binding untuk mengakses view
+        binding.infoArtikel.setOnClickListener {
+            val intent = Intent(requireContext(), ArtikelActivity::class.java)
+            startActivity(intent)
+        }
+
+        // Tambahkan listener untuk booking service
+        // Sesuaikan dengan ID yang ada di layout Anda
+        binding.bookingService.setOnClickListener {
+            val intent = Intent(requireContext(), BookingActivity::class.java)
+            startActivity(intent)
+        }
+
+        // Tambahkan listener untuk antrian service
+        // Sesuaikan dengan ID yang ada di layout Anda
+        binding.antrianService.setOnClickListener {
+            val intent = Intent(requireContext(), AntrianActivity::class.java)
+            startActivity(intent)
+        }
+
+        // Tambahkan listener untuk faskes service
+        // Sesuaikan dengan ID yang ada di layout Anda
+        binding.faskesService.setOnClickListener {
+            val intent = Intent(requireContext(), FaskesActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onDestroyView() {
