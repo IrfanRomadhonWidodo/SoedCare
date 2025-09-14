@@ -59,4 +59,5 @@ dependencies {
     implementation("de.hdodenhof:circleimageview:3.1.0")
     implementation("com.google.firebase:firebase-storage")
     implementation("com.google.firebase:firebase-database:21.0.0")
+    implementation ("androidx.browser:browser:1.7.0")
 }
