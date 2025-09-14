@@ -1,14 +1,20 @@
 package com.fanalbin.soedcare.ui.home
+
+import android.content.Intent
 import android.os.Bundle
+import android.util.Base64
+import android.graphics.BitmapFactory
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
+import com.bumptech.glide.Glide
+import com.fanalbin.soedcare.R
 import com.fanalbin.soedcare.databinding.FragmentHomeBinding
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
+import com.fanalbin.soedcare.ui.profile.UserProfileViewModel
 import android.os.Handler
 import android.os.Looper
 import androidx.viewpager2.widget.ViewPager2
@@ -22,53 +28,66 @@ class HomeFragment : Fragment() {
     private lateinit var handler: Handler
     private lateinit var runnable: Runnable
 
+    // Gunakan activityViewModels untuk berbagi ViewModel antar fragment
+    private val userProfileViewModel: UserProfileViewModel by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
+            androidx.lifecycle.ViewModelProvider(this).get(HomeViewModel::class.java)
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        // Menampilkan username - PERBAIKAN DI SINI
-        displayUsername()
+        // Observasi perubahan nama pengguna dari UserProfileViewModel
+        userProfileViewModel.userName.observe(viewLifecycleOwner) { userName ->
+            binding.textUsername.text = userName
+        }
+
+        // Observasi perubahan gambar profil dari UserProfileViewModel
+        userProfileViewModel.profileImageBase64.observe(viewLifecycleOwner) { imageBase64 ->
+            updateProfileImage(binding.imageProfile, imageBase64)
+        }
 
         // Menampilkan tanggal dan waktu
         updateDateTime()
 
         viewPager = binding.root.findViewById(com.fanalbin.soedcare.R.id.viewpager_services)
         setupAutoSwipe()
-
         return root
     }
 
-    // Perbaikan method ini
-    private fun displayUsername() {
-        val user = FirebaseAuth.getInstance().currentUser
-        val displayName = getDisplayName(user)
+    private fun updateProfileImage(imageView: ImageView, imageBase64: String) {
+        Log.d("HomeFragment", "Updating profile image, length: ${imageBase64.length}")
 
-        // Pisahkan "Hello, " dan nama pengguna ke TextView yang berbeda
-        binding.textGreeting.text = "Hello, "  // Teks statis
-        binding.textUsername.text = displayName  // Nama pengguna dinamis
-    }
+        if (imageBase64.isNotEmpty()) {
+            try {
+                val decodedString = Base64.decode(imageBase64, Base64.DEFAULT)
+                val bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
 
-    private fun getDisplayName(user: FirebaseUser?): String {
-        // Cek apakah user ada
-        if (user == null) return "User"
-
-        // Prioritaskan displayName jika ada
-        if (!user.displayName.isNullOrEmpty()) {
-            return user.displayName!!
-        }
-
-        // Jika displayName kosong, ambil dari email
-        val email = user.email ?: "User"
-        val rawName = email.substringBefore("@")
-        val cleanName = rawName.filter { it.isLetter() }
-        return cleanName.replaceFirstChar {
-            if (it.isLowerCase()) it.titlecase() else it.toString()
+                // Gunakan Glide untuk memuat gambar bitmap
+                Glide.with(requireContext())
+                    .load(bitmap)
+                    .placeholder(R.drawable.ic_profile)
+                    .error(R.drawable.ic_profile)
+                    .circleCrop() // Membuat gambar menjadi lingkaran
+                    .into(imageView)
+            } catch (e: Exception) {
+                Log.e("HomeFragment", "Error decoding image", e)
+                // Tampilkan gambar default dengan Glide
+                Glide.with(requireContext())
+                    .load(R.drawable.ic_profile)
+                    .circleCrop()
+                    .into(imageView)
+            }
+        } else {
+            // Tampilkan gambar default dengan Glide
+            Glide.with(requireContext())
+                .load(R.drawable.ic_profile)
+                .circleCrop()
+                .into(imageView)
         }
     }
 
@@ -91,7 +110,6 @@ class HomeFragment : Fragment() {
             com.fanalbin.soedcare.R.drawable.layanan_3
         )
         viewPager.adapter = ServiceImageAdapter(images)
-
         val dotsCount = binding.dotsIndicator.childCount
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -104,7 +122,6 @@ class HomeFragment : Fragment() {
                     .setBackgroundResource(com.fanalbin.soedcare.R.drawable.dot_selected)
             }
         })
-
         handler = Handler(Looper.getMainLooper())
         runnable = object : Runnable {
             override fun run() {
@@ -117,9 +134,18 @@ class HomeFragment : Fragment() {
         handler.postDelayed(runnable, 3000)
     }
 
+
+    override fun onResume() {
+        super.onResume()
+        // Refresh data profil saat fragment kembali ditampilkan
+        userProfileViewModel.refreshUserProfile()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         handler.removeCallbacks(runnable)
+        // Bersihkan Glide untuk mencegah memory leak
+        Glide.with(this).clear(binding.imageProfile)
         _binding = null
     }
 }

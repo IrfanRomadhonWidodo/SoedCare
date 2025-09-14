@@ -16,14 +16,17 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
+import com.bumptech.glide.Glide
 import com.fanalbin.soedcare.R
 import com.google.android.material.textfield.TextInputEditText
 import android.util.Base64
 import android.graphics.BitmapFactory
+import androidx.fragment.app.viewModels
 
 class EditProfileFragment : Fragment() {
     private val profileViewModel: ProfileViewModel by viewModels()
+    private val userProfileViewModel: UserProfileViewModel by activityViewModels()
     private lateinit var progressDialog: ProgressDialog
     private var selectedImageUri: Uri? = null
     private val TAG = "EditProfileFragment"
@@ -33,7 +36,15 @@ class EditProfileFragment : Fragment() {
             if (result.resultCode == android.app.Activity.RESULT_OK) {
                 result.data?.data?.let { uri ->
                     selectedImageUri = uri
-                    view?.findViewById<ImageView>(R.id.image_profile)?.setImageURI(uri)
+                    // Gunakan Glide untuk memuat gambar dari URI
+                    view?.findViewById<ImageView>(R.id.image_profile)?.let { imageView ->
+                        Glide.with(requireContext())
+                            .load(uri)
+                            .placeholder(R.drawable.ic_profile)
+                            .error(R.drawable.ic_profile)
+                            .circleCrop()
+                            .into(imageView)
+                    }
                 }
             }
         }
@@ -43,8 +54,17 @@ class EditProfileFragment : Fragment() {
             if (result.resultCode == android.app.Activity.RESULT_OK) {
                 val bitmap = result.data?.extras?.get("data") as? android.graphics.Bitmap
                 bitmap?.let {
+                    // Simpan bitmap ke Uri sementara
                     selectedImageUri = getImageUriFromBitmap(it)
-                    view?.findViewById<ImageView>(R.id.image_profile)?.setImageBitmap(it)
+                    // Gunakan Glide untuk memuat bitmap
+                    view?.findViewById<ImageView>(R.id.image_profile)?.let { imageView ->
+                        Glide.with(requireContext())
+                            .load(it)
+                            .placeholder(R.drawable.ic_profile)
+                            .error(R.drawable.ic_profile)
+                            .circleCrop()
+                            .into(imageView)
+                    }
                 }
             }
         }
@@ -87,13 +107,28 @@ class EditProfileFragment : Fragment() {
             try {
                 val decodedString = Base64.decode(profileImageBase64, Base64.DEFAULT)
                 val bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.size)
-                imageProfile.setImageBitmap(bitmap)
+
+                // Gunakan Glide untuk memuat bitmap
+                Glide.with(requireContext())
+                    .load(bitmap)
+                    .placeholder(R.drawable.ic_profile)
+                    .error(R.drawable.ic_profile)
+                    .circleCrop()
+                    .into(imageProfile)
             } catch (e: Exception) {
                 Log.e(TAG, "Error decoding image", e)
-                imageProfile.setImageResource(R.drawable.ic_profile)
+                // Tampilkan gambar default dengan Glide
+                Glide.with(requireContext())
+                    .load(R.drawable.ic_profile)
+                    .circleCrop()
+                    .into(imageProfile)
             }
         } else {
-            imageProfile.setImageResource(R.drawable.ic_profile)
+            // Tampilkan gambar default dengan Glide
+            Glide.with(requireContext())
+                .load(R.drawable.ic_profile)
+                .circleCrop()
+                .into(imageProfile)
         }
 
         // Listener untuk mengganti gambar
@@ -141,7 +176,14 @@ class EditProfileFragment : Fragment() {
                 progressDialog.dismiss()
                 if (success) {
                     Toast.makeText(requireContext(), "Profile updated successfully", Toast.LENGTH_SHORT).show()
-                    activity?.onBackPressed()
+
+                    // Update UserProfileViewModel untuk memastikan semua fragment mendapat data terbaru
+                    userProfileViewModel.refreshUserProfile()
+
+                    // Tunggu sebentar sebelum kembali untuk memastikan data tersimpan
+                    view.postDelayed({
+                        activity?.onBackPressed()
+                    }, 500)
                 } else {
                     Log.e(TAG, "Update failed: $message")
                     Toast.makeText(requireContext(), "Failed to update profile: $message", Toast.LENGTH_LONG).show()

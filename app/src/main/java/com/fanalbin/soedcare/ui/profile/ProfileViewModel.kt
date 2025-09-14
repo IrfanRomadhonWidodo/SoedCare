@@ -53,6 +53,8 @@ class ProfileViewModel : ViewModel() {
             // Set default values
             _userName.value = email.substringBefore("@").replaceFirstChar { it.uppercaseChar() }
             _userEmail.value = email
+            _userPhone.value = ""
+            _userAddress.value = ""
             _profileImageBase64.value = ""
 
             // Ambil data dari Firestore
@@ -66,6 +68,7 @@ class ProfileViewModel : ViewModel() {
                         val address = document.getString("address") ?: ""
                         val profileImageBase64 = document.getString("profileImageBase64") ?: ""
 
+                        // Update semua LiveData
                         if (name.isNotEmpty()) {
                             _userName.value = name.replaceFirstChar { it.uppercaseChar() }
                         }
@@ -73,9 +76,10 @@ class ProfileViewModel : ViewModel() {
                         _userPhone.value = phone
                         _userAddress.value = address
                         _profileImageBase64.value = profileImageBase64
+
+                        Log.d(TAG, "Data loaded: name=$name, phone=$phone, address=$address")
                     } else {
                         Log.d(TAG, "User document not found, creating new one")
-                        // Buat dokumen baru jika belum ada
                         createUserDocument(currentUser.uid, email)
                     }
                 }
@@ -86,6 +90,8 @@ class ProfileViewModel : ViewModel() {
             Log.d(TAG, "No authenticated user")
             _userName.value = "Guest"
             _userEmail.value = ""
+            _userPhone.value = ""
+            _userAddress.value = ""
             _profileImageBase64.value = ""
         }
     }
@@ -178,12 +184,17 @@ class ProfileViewModel : ViewModel() {
         userRef.set(updates, SetOptions.merge())
             .addOnSuccessListener {
                 Log.d(TAG, "Profile updated successfully")
-                // Update LiveData
+
+                // Update semua LiveData untuk memastikan UI diperbarui
                 _userFullName.value = fullName
                 _userPhone.value = phone
                 _userAddress.value = address
                 _profileImageBase64.value = profileImageBase64
                 _userName.value = fullName.replaceFirstChar { it.uppercaseChar() }
+
+                // Muat ulang data dari database untuk memastikan sinkronisasi
+                loadUserProfile()
+
                 callback(true, "Profile updated successfully")
             }
             .addOnFailureListener { e ->
