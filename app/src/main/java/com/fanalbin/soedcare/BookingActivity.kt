@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.fanalbin.soedcare.ui.booking.BookingFragment
 
 class BookingActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -13,7 +12,7 @@ class BookingActivity : AppCompatActivity() {
         // Setup toolbar
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "Booking Layanan"
+        supportActionBar?.title = "Booking"
 
         // Tambahkan fragment
         if (savedInstanceState == null) {

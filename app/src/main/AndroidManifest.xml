@@ -73,5 +73,6 @@
             android:label="Fasilitas Kesehatan"
             android:theme="@style/Theme.SoedCare" />
 
+
     </application>
 </manifest>

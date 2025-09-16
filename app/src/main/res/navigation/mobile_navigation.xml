@@ -37,4 +37,22 @@
         android:label="Profile"
         tools:layout="@layout/fragment_profile" />
 
+    <fragment
+        android:id="@+id/bookingFragment"
+        android:name="com.fanalbin.soedcare.ui.booking.BookingFragment"
+        android:label="Booking"
+        tools:layout="@layout/fragment_booking">
+
+        <action
+            android:id="@+id/action_bookingFragment_to_antrianFragment"
+            app:destination="@id/antrianFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/antrianFragment"
+        android:name="com.fanalbin.soedcare.ui.antrian.AntrianFragment"
+        android:label="Antrian"
+        tools:layout="@layout/fragment_antrian" />
+
+
 </navigation>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Background gradien untuk ikon -->
+    <path
+        android:pathData="M3,6 L3,20 Q3,21 4,21 L20,21 Q21,21 21,20 L21,6 Q21,5 20,5 L18,5 L18,3 L16,3 L16,5 L8,5 L8,3 L6,3 L6,5 L4,5 Q3,5 3,6 Z"
+        android:fillColor="#E8F5E9"
+        android:strokeColor="#388E3C"
+        android:strokeWidth="1"/>
+
+    <!-- Header kalender dengan gradien -->
+    <path
+        android:pathData="M3,6 L21,6 L21,10 L3,10 Z"
+        android:fillColor="#388E3C"/>
+
+    <!-- Lubang pengikat -->
+    <path
+        android:pathData="M7,3 L7,7 M17,3 L17,7"
+        android:strokeColor="#E8F5E9"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"/>
+
+    <!-- Grid tanggal -->
+    <group>
+        <!-- Baris 1 -->
+        <path android:pathData="M6,12 L8,12 M10,12 L12,12 M14,12 L16,12 M18,12 L18,12"
+            android:strokeColor="#388E3C" android:strokeWidth="0.8"/>
+        <!-- Baris 2 -->
+        <path android:pathData="M6,15 L8,15 M10,15 L12,15 M14,15 L16,15 M18,15 L18,15"
+            android:strokeColor="#388E3C" android:strokeWidth="0.8"/>
+        <!-- Baris 3 -->
+        <path android:pathData="M6,18 L8,18 M10,18 L12,18 M14,18 L16,18 M18,18 L18,18"
+            android:strokeColor="#388E3C" android:strokeWidth="0.8"/>
+    </group>
+
+    <!-- Penanda tanggal spesial (tanggal 15) -->
+    <path
+        android:pathData="M14,13 L16,13 L16,15 L14,15 Z"
+        android:fillColor="#4CAF50"/>
+
+    <!-- Angka tanggal -->
+    <path
+        android:pathData="M14.5,14.5 m-0.8,0 a0.8,0.8 0 1,0 1.6,0 a0.8,0.8 0 1,0 -1.6,0"
+        android:fillColor="#FFFFFF"/>
+
+    <!-- Efek bayangan halus -->
+    <path
+        android:pathData="M3,6 L3,20 Q3,21 4,21 L20,21 Q21,21 21,20 L21,6 Q21,5 20,5 L4,5 Q3,5 3,6 Z"
+        android:strokeColor="#1B5E20"
+        android:strokeWidth="0.5"
+        android:fillColor="@null"/>
+</vector>

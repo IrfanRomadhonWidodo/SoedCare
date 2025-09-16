@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.fanalbin.soedcare.ui.antrian.AntrianFragment
 
 class AntrianActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -13,7 +12,7 @@ class AntrianActivity : AppCompatActivity() {
         // Setup toolbar
         setSupportActionBar(findViewById(R.id.toolbar))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "Cek Antrian"
+        supportActionBar?.title = "Nomor Antrian"
 
         // Tambahkan fragment
         if (savedInstanceState == null) {
