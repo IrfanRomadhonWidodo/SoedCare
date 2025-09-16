@@ -114,7 +114,7 @@ class FaskesFragment : Fragment() {
                 btnFaskes1.isEnabled = true // jangan disable
                 btnFaskes1.text = "Faskes Dipilih"
                 // Gunakan selector, bukan set background color langsung
-                btnFaskes1.setBackgroundResource(R.drawable.faskes_button_selector)
+                btnFaskes1.setBackgroundResource(R.drawable.accent_line)
                 btnFaskes2.isEnabled = true
                 btnFaskes2.text = "Pilih Faskes Ini"
                 btnFaskes2.setBackgroundResource(R.drawable.faskes_button_selector)
@@ -123,7 +123,7 @@ class FaskesFragment : Fragment() {
                 btnFaskes2.isEnabled = true
                 btnFaskes2.text = "Faskes Dipilih"
                 // Gunakan selector, bukan set background color langsung
-                btnFaskes2.setBackgroundResource(R.drawable.faskes_button_selector)
+                btnFaskes2.setBackgroundResource(R.drawable.accent_line)
                 btnFaskes1.isEnabled = true
                 btnFaskes1.text = "Pilih Faskes Ini"
                 btnFaskes1.setBackgroundResource(R.drawable.faskes_button_selector)
