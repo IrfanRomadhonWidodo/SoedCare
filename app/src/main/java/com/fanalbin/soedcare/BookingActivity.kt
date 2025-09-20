@@ -26,4 +26,19 @@ class BookingActivity : AppCompatActivity() {
         onBackPressed()
         return true
     }
+
+    override fun onBackPressed() {
+        // Cek apakah fragment saat ini adalah BookingFragment
+        val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+
+        // Jika ada booking yang sedang dibuat, tampilkan dialog konfirmasi
+        if (currentFragment is BookingFragment) {
+            // Panggil metode onBackPressed di fragment jika ada
+            if (!currentFragment.onBackPressed()) {
+                super.onBackPressed()
+            }
+        } else {
+            super.onBackPressed()
+        }
+    }
 }

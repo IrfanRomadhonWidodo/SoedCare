@@ -18,11 +18,72 @@
         android:gravity="center"
         android:layout_marginBottom="24dp" />
 
-    <!-- Queue Number Card -->
+    <!-- Card untuk menampilkan informasi ketika belum ada antrian -->
     <androidx.cardview.widget.CardView
+        android:id="@+id/card_no_queue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="6dp"
+        app:cardBackgroundColor="?attr/colorSurface"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_info"
+                app:tint="?attr/colorPrimary"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Belum Ada Antrian"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="?attr/colorOnSurface"
+                android:gravity="center"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Anda belum memiliki nomor antrian. Silakan melakukan booking terlebih dahulu."
+                android:textSize="14sp"
+                android:textColor="?android:attr/textColorSecondary"
+                android:gravity="center" />
+
+            <Button
+                android:id="@+id/btn_booking_now"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Booking Sekarang"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="?attr/colorOnPrimary"
+                android:background="@drawable/green_button_selector"
+                android:layout_marginTop="16dp" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- Queue Number Card - Hanya tampil jika ada antrian -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_queue_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:visibility="gone"
         app:cardCornerRadius="12dp"
         app:cardElevation="6dp"
         app:cardBackgroundColor="?attr/colorPrimary"
@@ -48,7 +109,7 @@
                 android:id="@+id/tv_queue_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="001"
+                android:text=""
                 android:textSize="48sp"
                 android:textStyle="bold"
                 android:textColor="?attr/colorOnPrimary"
@@ -58,7 +119,7 @@
                 android:id="@+id/tv_queue_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Menunggu Konfirmasi"
+                android:text="Terkonfirmasi"
                 android:textSize="14sp"
                 android:textColor="?attr/colorOnPrimary" />
 
@@ -66,11 +127,13 @@
 
     </androidx.cardview.widget.CardView>
 
-    <!-- Booking Info Card -->
+    <!-- Booking Info Card - Hanya tampil jika ada antrian -->
     <androidx.cardview.widget.CardView
+        android:id="@+id/card_booking_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
+        android:visibility="gone"
         app:cardCornerRadius="12dp"
         app:cardElevation="6dp"
         app:cardBackgroundColor="?attr/colorSurface"
@@ -177,7 +240,7 @@
                     android:id="@+id/tv_status"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Menunggu Konfirmasi"
+                    android:text="Terkonfirmasi"
                     android:textSize="14sp"
                     android:textColor="?attr/colorOnSurface" />
 
@@ -187,37 +250,16 @@
 
     </androidx.cardview.widget.CardView>
 
-    <!-- Action Buttons -->
-    <LinearLayout
+    <!-- Action Buttons - Hanya tampil jika ada antrian -->
+    <Button
+        android:id="@+id/btn_back_to_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
-
-        <Button
-            android:id="@+id/btn_cancel_booking"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginEnd="8dp"
-            android:text="Batalkan"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="?attr/colorOnError"
-            android:background="@drawable/red_button_selector" />
-
-        <Button
-            android:id="@+id/btn_back_to_home"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="8dp"
-            android:text="Kembali"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="?attr/colorOnPrimary"
-            android:background="@drawable/green_button_selector" />
-
-    </LinearLayout>
+        android:text="Kembali"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="?attr/colorOnPrimary"
+        android:background="@drawable/green_button_selector"
+        android:visibility="gone" />
 
 </LinearLayout>

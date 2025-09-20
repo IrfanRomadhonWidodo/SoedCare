@@ -1,21 +1,40 @@
 package com.fanalbin.soedcare.ui.antrian
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.Button
+import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import com.fanalbin.soedcare.R
 import com.fanalbin.soedcare.model.Booking
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.fanalbin.soedcare.BookingActivity  // Perbaikan: import dari paket utama
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import java.text.SimpleDateFormat
+import java.util.*
 
 class AntrianFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var firestore: FirebaseFirestore
     private var booking: Booking? = null
+
+    // Views
+    private lateinit var cardNoQueue: CardView
+    private lateinit var cardQueueNumber: CardView
+    private lateinit var cardBookingInfo: CardView
+    private lateinit var tvQueueNumber: TextView
+    private lateinit var tvFaskesName: TextView
+    private lateinit var tvBookingDate: TextView
+    private lateinit var tvBookingTime: TextView
+    private lateinit var tvQueueStatus: TextView
+    private lateinit var tvStatus: TextView
+    private lateinit var btnBackToHome: Button
+    private lateinit var btnBookingNow: Button
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,86 +51,120 @@ class AntrianFragment : Fragment() {
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
 
+        // Inisialisasi views
+        cardNoQueue = view.findViewById(R.id.card_no_queue)
+        cardQueueNumber = view.findViewById(R.id.card_queue_number)
+        cardBookingInfo = view.findViewById(R.id.card_booking_info)
+        tvQueueNumber = view.findViewById(R.id.tv_queue_number)
+        tvFaskesName = view.findViewById(R.id.tv_faskes_name)
+        tvBookingDate = view.findViewById(R.id.tv_booking_date)
+        tvBookingTime = view.findViewById(R.id.tv_booking_time)
+        tvQueueStatus = view.findViewById(R.id.tv_queue_status)
+        tvStatus = view.findViewById(R.id.tv_status)
+        btnBackToHome = view.findViewById(R.id.btn_back_to_home)
+        btnBookingNow = view.findViewById(R.id.btn_booking_now)
+
         // Ambil data booking dari arguments
         booking = arguments?.getParcelable("booking_data")
+        Log.d("AntrianFragment", "Received booking data: $booking")
 
-        // Tampilkan data booking
-        if (booking != null) {
+        // Jika tidak ada data booking, cek apakah ada booking aktif untuk hari ini
+        if (booking == null) {
+            checkActiveBooking()
+        } else {
+            // Tampilkan data booking yang diterima
             displayBookingData()
         }
 
-        // Set listener untuk tombol batalkan
-        view.findViewById<android.widget.Button>(R.id.btn_cancel_booking).setOnClickListener {
-            showCancelConfirmationDialog()
+        // Set listener untuk tombol booking sekarang
+        btnBookingNow.setOnClickListener {
+            val intent = Intent(requireContext(), BookingActivity::class.java)
+            startActivity(intent)
         }
 
-        // Set listener untuk tombol kembali - menggunakan activity
-        view.findViewById<android.widget.Button>(R.id.btn_back_to_home).setOnClickListener {
-            // Kembali ke home activity
+        // Set listener untuk tombol kembali
+        btnBackToHome.setOnClickListener {
             activity?.finish()
-            // Atau jika ingin membuka HomeActivity secara eksplisit:
-            // val intent = Intent(requireContext(), HomeActivity::class.java)
-            // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-            // startActivity(intent)
         }
     }
 
-    private fun displayBookingData() {
-        view?.findViewById<android.widget.TextView>(R.id.tv_queue_number)?.text =
-            String.format("%03d", booking?.queueNumber ?: 0)
-
-        view?.findViewById<android.widget.TextView>(R.id.tv_faskes_name)?.text = booking?.faskesName
-        view?.findViewById<android.widget.TextView>(R.id.tv_booking_date)?.text = booking?.bookingDate
-        view?.findViewById<android.widget.TextView>(R.id.tv_booking_time)?.text = booking?.bookingTime
-
-        val statusText = when (booking?.status) {
-            "pending" -> "Menunggu Konfirmasi"
-            "confirmed" -> "Terkonfirmasi"
-            "completed" -> "Selesai"
-            "cancelled" -> "Dibatalkan"
-            else -> "Unknown"
-        }
-
-        view?.findViewById<android.widget.TextView>(R.id.tv_queue_status)?.text = statusText
-        view?.findViewById<android.widget.TextView>(R.id.tv_status)?.text = statusText
-    }
-
-    private fun showCancelConfirmationDialog() {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Batalkan Booking")
-            .setMessage("Apakah Anda yakin ingin membatalkan booking ini?")
-            .setNegativeButton("Tidak") { dialog, _ ->
-                dialog.dismiss()
-            }
-            .setPositiveButton("Ya") { dialog, _ ->
-                cancelBooking()
-                dialog.dismiss()
-            }
-            .show()
-    }
-
-    private fun cancelBooking() {
-        // Simpan ID ke variabel lokal yang aman
-        val bookingId = booking?.id
-
-        // Periksa variabel lokal tersebut
-        if (bookingId.isNullOrEmpty()) {
-            Toast.makeText(context, "Data booking tidak valid", Toast.LENGTH_SHORT).show()
+    private fun checkActiveBooking() {
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            showNoBookingUI()
             return
         }
 
-        // Gunakan variabel lokal yang sudah pasti tidak null
+        // Dapatkan tanggal hari ini dalam format yyyy-MM-dd
+        val today = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
+
         firestore.collection("bookings")
-            .document(bookingId)
-            .update("status", "cancelled")
-            .addOnSuccessListener {
-                Toast.makeText(context, "Booking berhasil dibatalkan", Toast.LENGTH_SHORT).show()
-                // Update status booking lokal setelah berhasil di Firebase
-                booking = booking?.copy(status = "cancelled")
-                displayBookingData()
+            .whereEqualTo("userId", currentUser.uid)
+            .whereEqualTo("bookingDate", today)
+            .whereIn("status", listOf("confirmed", "pending"))
+            .get()
+            .addOnSuccessListener { documents ->
+                if (documents.isEmpty) {
+                    // Tidak ada booking aktif hari ini
+                    showNoBookingUI()
+                } else {
+                    // Ambil booking pertama (seharusnya hanya ada satu)
+                    val document = documents.first()
+                    booking = document.toObject(Booking::class.java)
+                    displayBookingData()
+                }
             }
             .addOnFailureListener { e ->
-                Toast.makeText(context, "Gagal membatalkan booking: ${e.message}", Toast.LENGTH_SHORT).show()
+                Log.e("AntrianFragment", "Error checking active booking", e)
+                showNoBookingUI()
             }
+    }
+
+    private fun showNoBookingUI() {
+        // Tampilkan card untuk belum ada antrian
+        cardNoQueue.visibility = View.VISIBLE
+        cardQueueNumber.visibility = View.GONE
+        cardBookingInfo.visibility = View.GONE
+        btnBackToHome.visibility = View.GONE
+    }
+
+    private fun displayBookingData() {
+        if (booking == null) {
+            showNoBookingUI()
+            return
+        }
+
+        Log.d("AntrianFragment", "Displaying booking data. Queue number: ${booking?.queueNumber}")
+
+        // Tampilkan card untuk antrian
+        cardNoQueue.visibility = View.GONE
+        cardQueueNumber.visibility = View.VISIBLE
+        cardBookingInfo.visibility = View.VISIBLE
+        btnBackToHome.visibility = View.VISIBLE
+
+        // Gunakan queueNumberFormatted yang sudah disimpan di database
+        val formattedQueueNumber = booking?.queueNumberFormatted ?: formatQueueNumber(booking?.queueNumber ?: 0)
+
+        tvQueueNumber.text = formattedQueueNumber
+
+        // Format tanggal untuk tampilan (dd/MM/yyyy)
+        val storageDate = booking?.bookingDate
+        val displayDate = if (storageDate != null && storageDate.contains("-")) {
+            val parts = storageDate.split("-")
+            "${parts[2]}/${parts[1]}/${parts[0]}" // Konversi yyyy-MM-dd ke dd/MM/yyyy
+        } else {
+            storageDate ?: ""
+        }
+
+        tvFaskesName.text = booking?.faskesName
+        tvBookingDate.text = displayDate
+        tvBookingTime.text = booking?.bookingTime
+
+        // Status selalu "Terkonfirmasi"
+        tvQueueStatus.text = "Terkonfirmasi"
+        tvStatus.text = "Terkonfirmasi"
+    }
+    private fun formatQueueNumber(queueNumber: Int): String {
+        return String.format("%03d", queueNumber)
     }
 }

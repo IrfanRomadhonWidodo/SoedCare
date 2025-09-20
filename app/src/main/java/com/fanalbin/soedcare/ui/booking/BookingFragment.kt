@@ -21,6 +21,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.*
 
+import com.fanalbin.soedcare.model.QueueCounter
+
+
 class BookingFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var firestore: FirebaseFirestore
@@ -73,15 +76,16 @@ class BookingFragment : Fragment() {
 
         // Set listener untuk tombol pilih faskes
         btnPilihFaskes.setOnClickListener {
-            // Buka FaskesActivity untuk memilih faskes
             val intent = Intent(requireContext(), com.fanalbin.soedcare.FaskesActivity::class.java)
             startActivity(intent)
         }
 
         // Set listener untuk tombol lengkapi data
         btnLengkapiData.setOnClickListener {
-            // Buka ProfileActivity untuk melengkapi data
-            val intent = Intent(requireContext(), com.fanalbin.soedcare.ui.profile.ProfileActivity::class.java)
+            val intent = Intent(
+                requireContext(),
+                com.fanalbin.soedcare.ui.profile.ProfileActivity::class.java
+            )
             startActivity(intent)
         }
 
@@ -93,17 +97,14 @@ class BookingFragment : Fragment() {
         // Set listener untuk tombol booking
         btnBooking.setOnClickListener {
             if (validateForm()) {
-                createBooking()
+                checkExistingBooking()
             }
         }
     }
 
-    // Tambahkan onResume untuk memuat ulang data faskes dan user setelah kembali dari activity lain
     override fun onResume() {
         super.onResume()
-        // Muat ulang data faskes yang dipilih
         loadSelectedFaskesFromFirestore()
-        // Muat ulang data user
         loadUserData()
     }
 
@@ -120,15 +121,17 @@ class BookingFragment : Fragment() {
                         displayFaskesInfo()
                     } else {
                         Log.d("BookingFragment", "No faskes selected yet")
-                        // Tampilkan informasi untuk memilih faskes
                         cardInfoFaskes.visibility = View.VISIBLE
                         cardFaskesInfo.visibility = View.GONE
                     }
                 }
                 .addOnFailureListener { e ->
                     Log.e("BookingFragment", "Error loading faskes data", e)
-                    Toast.makeText(context, "Gagal memuat data faskes: ${e.message}", Toast.LENGTH_SHORT).show()
-                    // Tampilkan informasi untuk memilih faskes
+                    Toast.makeText(
+                        context,
+                        "Gagal memuat data faskes: ${e.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     cardInfoFaskes.visibility = View.VISIBLE
                     cardFaskesInfo.visibility = View.GONE
                 }
@@ -137,19 +140,41 @@ class BookingFragment : Fragment() {
 
     private fun displayFaskesInfo() {
         if (selectedFaskes != null) {
-            // Sembunyikan informasi untuk memilih faskes
             cardInfoFaskes.visibility = View.GONE
             cardFaskesInfo.visibility = View.VISIBLE
 
-            // Tampilkan data faskes
             view?.findViewById<TextView?>(R.id.tv_faskes_name)?.text = selectedFaskes?.name
             view?.findViewById<TextView?>(R.id.tv_faskes_location)?.text = selectedFaskes?.location
-            view?.findViewById<TextView?>(R.id.tv_faskes_hours)?.text = selectedFaskes?.operatingHours
+            view?.findViewById<TextView?>(R.id.tv_faskes_hours)?.text =
+                selectedFaskes?.operatingHours
         } else {
-            // Tampilkan informasi untuk memilih faskes
             cardInfoFaskes.visibility = View.VISIBLE
             cardFaskesInfo.visibility = View.GONE
         }
+    }
+
+    // Tambahkan metode ini di BookingFragment.kt
+    fun onBackPressed(): Boolean {
+        // Cek apakah ada input yang sudah diisi
+        val hasInput = !etBookingDate.text.toString().trim().isEmpty() ||
+                !etNotes.text.toString().trim().isEmpty()
+
+        if (hasInput) {
+            // Tampilkan dialog konfirmasi jika ada input yang sudah diisi
+            android.app.AlertDialog.Builder(requireContext())
+                .setTitle("Batalkan Booking")
+                .setMessage("Apakah Anda yakin ingin membatalkan booking? Data yang sudah diisi akan hilang.")
+                .setPositiveButton("Ya") { _, _ ->
+                    // Lanjutkan dengan back press default
+                    requireActivity().onBackPressed()
+                }
+                .setNegativeButton("Tidak", null)
+                .show()
+
+            return true // Menandakan bahwa back press telah ditangani
+        }
+
+        return false // Lanjutkan dengan back press default
     }
 
     private fun loadUserData() {
@@ -160,35 +185,29 @@ class BookingFragment : Fragment() {
                 .get()
                 .addOnSuccessListener { document ->
                     if (document != null && document.exists()) {
-                        // Logging untuk melihat semua field yang ada di dokumen
-                        Log.d("BookingFragment", "User document data: ${document.data}")
+                        userName =
+                            document.getString("fullName") ?: document.getString("name") ?: ""
+                        userPhone = document.getString("phone") ?: document.getString("phoneNumber")
+                                ?: document.getString("noHp") ?: ""
+                        userAddress =
+                            document.getString("address") ?: document.getString("alamat") ?: ""
 
-                        // Coba dapatkan semua field yang mungkin
-                        userName = document.getString("fullName") ?: document.getString("name") ?: ""
-                        userPhone = document.getString("phone") ?: document.getString("phoneNumber") ?: document.getString("noHp") ?: ""
-                        userAddress = document.getString("address") ?: document.getString("alamat") ?: ""
-
-                        // Logging nilai yang didapat
-                        Log.d("BookingFragment", "Name: $userName")
-                        Log.d("BookingFragment", "Phone: $userPhone")
-                        Log.d("BookingFragment", "Address: $userAddress")
-
-                        // Periksa apakah data user sudah lengkap
-                        isUserDataComplete = userName.isNotEmpty() && userPhone.isNotEmpty() && userAddress.isNotEmpty()
-
-                        // Update UI berdasarkan kelengkapan data
+                        isUserDataComplete =
+                            userName.isNotEmpty() && userPhone.isNotEmpty() && userAddress.isNotEmpty()
                         displayUserInfo()
                     } else {
                         Log.d("BookingFragment", "User document does not exist")
-                        // Tampilkan informasi untuk melengkapi data user
                         isUserDataComplete = false
                         displayUserInfo()
                     }
                 }
                 .addOnFailureListener { e ->
                     Log.e("BookingFragment", "Error loading user data", e)
-                    Toast.makeText(context, "Gagal memuat data user: ${e.message}", Toast.LENGTH_SHORT).show()
-                    // Tampilkan informasi untuk melengkapi data user
+                    Toast.makeText(
+                        context,
+                        "Gagal memuat data user: ${e.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     isUserDataComplete = false
                     displayUserInfo()
                 }
@@ -197,16 +216,13 @@ class BookingFragment : Fragment() {
 
     private fun displayUserInfo() {
         if (isUserDataComplete) {
-            // Sembunyikan informasi untuk melengkapi data user
             cardInfoUser.visibility = View.GONE
             cardUserInfo.visibility = View.VISIBLE
 
-            // Tampilkan data user
             view?.findViewById<TextView?>(R.id.tv_user_name)?.text = userName
             view?.findViewById<TextView?>(R.id.tv_user_phone)?.text = userPhone
             view?.findViewById<TextView?>(R.id.tv_user_address)?.text = userAddress
         } else {
-            // Tampilkan informasi untuk melengkapi data user
             cardInfoUser.visibility = View.VISIBLE
             cardUserInfo.visibility = View.GONE
         }
@@ -221,7 +237,9 @@ class BookingFragment : Fragment() {
         val datePickerDialog = DatePickerDialog(
             requireContext(),
             { _, selectedYear, selectedMonth, selectedDay ->
-                val selectedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
+                val formattedDay = String.format("%02d", selectedDay)
+                val formattedMonth = String.format("%02d", selectedMonth + 1)
+                val selectedDate = "$formattedDay/$formattedMonth/$selectedYear"
                 etBookingDate.setText(selectedDate)
             },
             year,
@@ -229,19 +247,23 @@ class BookingFragment : Fragment() {
             day
         )
 
-        // Set min date to today
         datePickerDialog.datePicker.minDate = calendar.timeInMillis
         datePickerDialog.show()
     }
 
     private fun validateForm(): Boolean {
         if (selectedFaskes == null) {
-            Toast.makeText(context, "Silakan pilih faskes terlebih dahulu", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Silakan pilih faskes terlebih dahulu", Toast.LENGTH_SHORT)
+                .show()
             return false
         }
 
         if (!isUserDataComplete) {
-            Toast.makeText(context, "Silakan lengkapi data pemesan terlebih dahulu", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                context,
+                "Silakan lengkapi data pemesan terlebih dahulu",
+                Toast.LENGTH_SHORT
+            ).show()
             return false
         }
 
@@ -254,6 +276,60 @@ class BookingFragment : Fragment() {
         return true
     }
 
+    private fun checkExistingBooking() {
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            Toast.makeText(context, "Silakan login terlebih dahulu", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val faskesId = selectedFaskes?.id
+        if (faskesId.isNullOrEmpty()) {
+            Toast.makeText(context, "ID Faskes tidak ditemukan", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val bookingDateDisplay = etBookingDate.text.toString().trim()
+        if (bookingDateDisplay.isEmpty()) {
+            Toast.makeText(context, "Tanggal booking tidak valid", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val dateParts = bookingDateDisplay.split("/")
+        if (dateParts.size != 3) {
+            Toast.makeText(context, "Format tanggal tidak valid", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val bookingDateStorage = "${dateParts[2]}-${dateParts[1]}-${dateParts[0]}" // yyyy-MM-dd
+
+        // Cek apakah user sudah memiliki booking untuk faskes yang sama pada hari yang sama
+        firestore.collection("bookings")
+            .whereEqualTo("userId", currentUser.uid)
+            .whereEqualTo("faskesId", faskesId)
+            .whereEqualTo("bookingDate", bookingDateStorage)
+            .whereIn("status", listOf("confirmed", "pending"))
+            .get()
+            .addOnSuccessListener { documents ->
+                if (documents.isEmpty) {
+                    // Tidak ada booking yang sama, lanjutkan membuat booking
+                    createBooking()
+                } else {
+                    // User sudah memiliki booking untuk faskes yang sama pada hari yang sama
+                    Toast.makeText(
+                        context,
+                        "Anda sudah memiliki booking untuk faskes ini pada hari ini",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e("BookingFragment", "Error checking existing booking", e)
+                Toast.makeText(context, "Gagal memeriksa booking: ${e.message}", Toast.LENGTH_SHORT)
+                    .show()
+            }
+    }
+
     private fun createBooking() {
         val currentUser = auth.currentUser
         if (currentUser == null) {
@@ -261,56 +337,121 @@ class BookingFragment : Fragment() {
             return
         }
 
-        // Generate nomor antrian
-        generateQueueNumber { queueNumber ->
+        val faskesId = selectedFaskes?.id
+        if (faskesId.isNullOrEmpty()) {
+            Toast.makeText(context, "ID Faskes tidak ditemukan", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val bookingDateDisplay = etBookingDate.text.toString().trim()
+        if (bookingDateDisplay.isEmpty()) {
+            Toast.makeText(context, "Tanggal booking tidak valid", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val dateParts = bookingDateDisplay.split("/")
+        if (dateParts.size != 3) {
+            Toast.makeText(context, "Format tanggal tidak valid", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val bookingDateStorage = "${dateParts[2]}-${dateParts[1]}-${dateParts[0]}" // yyyy-MM-dd
+        val bookingsRef = firestore.collection("bookings")
+
+        // Generate nomor antrian dengan pendekatan baru
+        generateQueueNumber(faskesId, bookingDateStorage) { queueNumber ->
+            val formattedQueueNumber = formatQueueNumber(queueNumber)
+
+            val newBookingRef = bookingsRef.document()
             val booking = Booking(
+                id = newBookingRef.id,
                 userId = currentUser.uid,
-                faskesId = selectedFaskes?.id ?: "",
+                faskesId = faskesId,
                 faskesName = selectedFaskes?.name ?: "",
                 userName = userName,
                 userPhone = userPhone,
                 userAddress = userAddress,
-                bookingDate = etBookingDate.text.toString(),
+                bookingDate = bookingDateStorage,
                 bookingTime = selectedFaskes?.operatingHours ?: "",
                 notes = etNotes.text.toString(),
                 queueNumber = queueNumber,
-                status = "pending"
+                queueNumberFormatted = formattedQueueNumber,
+                status = "confirmed"
             )
 
-            // Simpan booking ke Firestore
-            firestore.collection("bookings")
-                .add(booking)
-                .addOnSuccessListener { documentReference ->
-                    val bookingId = documentReference.id
-                    val updatedBooking = booking.copy(id = bookingId)
+            newBookingRef.set(booking)
+                .addOnSuccessListener {
+                    Log.d("BookingFragment", "Booking saved with queue number: $formattedQueueNumber")
+                    Toast.makeText(context, "Booking berhasil dengan nomor antrian: $formattedQueueNumber", Toast.LENGTH_SHORT).show()
 
-                    Toast.makeText(context, "Booking berhasil", Toast.LENGTH_SHORT).show()
-
-                    // Navigasi ke halaman antrian menggunakan activity
                     val intent = Intent(requireContext(), com.fanalbin.soedcare.AntrianActivity::class.java)
-                    intent.putExtra("booking_data", updatedBooking)
+                    intent.putExtra("booking_data", booking)
                     startActivity(intent)
                     activity?.finish()
                 }
                 .addOnFailureListener { e ->
+                    Log.e("BookingFragment", "Error saving booking", e)
                     Toast.makeText(context, "Gagal melakukan booking: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
         }
     }
 
-    private fun generateQueueNumber(callback: (Int) -> Unit) {
-        val today = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
+    private fun generateQueueNumber(faskesId: String, bookingDate: String, callback: (Int) -> Unit) {
+        val queueId = "$faskesId-$bookingDate"
+        val queueRef = firestore.collection("queue_numbers").document(queueId)
 
-        firestore.collection("bookings")
-            .whereEqualTo("bookingDate", today)
-            .get()
-            .addOnSuccessListener { documents ->
-                val count = documents.size()
-                callback(count + 1)
+        firestore.runTransaction { transaction ->
+            val snapshot = transaction.get(queueRef)
+            val currentNumber = if (snapshot.exists()) {
+                snapshot.toObject(QueueNumber::class.java)?.lastNumber ?: 0
+            } else {
+                0
             }
-            .addOnFailureListener { e ->
-                // Jika gagal, gunakan default 1
-                callback(1)
-            }
+            val newNumber = currentNumber + 1
+
+            // Update nomor antrian di koleksi queue_numbers
+            val queueNumber = QueueNumber(
+                id = queueId,
+                faskesId = faskesId,
+                date = bookingDate,
+                lastNumber = newNumber,
+                updatedAt = System.currentTimeMillis()
+            )
+
+            transaction.set(queueRef, queueNumber)
+            newNumber
+        }.addOnSuccessListener { queueNumber ->
+            Log.d("BookingFragment", "Generated queue number: $queueNumber for faskes: $faskesId, date: $bookingDate")
+            callback(queueNumber)
+        }.addOnFailureListener { e ->
+            Log.e("BookingFragment", "Error generating queue number", e)
+            // Fallback: coba cari nomor terakhir dari koleksi bookings
+            firestore.collection("bookings")
+                .whereEqualTo("faskesId", faskesId)
+                .whereEqualTo("bookingDate", bookingDate)
+                .orderBy("queueNumber", com.google.firebase.firestore.Query.Direction.DESCENDING)
+                .limit(1)
+                .get()
+                .addOnSuccessListener { documents ->
+                    val lastQueueNumber = if (documents.isEmpty) {
+                        1
+                    } else {
+                        val lastBooking = documents.documents[0].toObject(Booking::class.java)
+                        (lastBooking?.queueNumber ?: 0) + 1
+                    }
+                    Log.d("BookingFragment", "Fallback queue number: $lastQueueNumber")
+                    callback(lastQueueNumber)
+                }
+                .addOnFailureListener { e2 ->
+                    Log.e("BookingFragment", "Fallback failed", e2)
+                    // Jika semua metode gagal, gunakan 1
+                    callback(1)
+                }
+        }
     }
+    private fun formatQueueNumber(queueNumber: Int): String {
+        return String.format("%03d", queueNumber)
+    }
+
+
 }

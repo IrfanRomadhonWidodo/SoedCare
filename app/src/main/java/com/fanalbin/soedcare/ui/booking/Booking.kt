@@ -1,3 +1,4 @@
+// Booking.kt
 package com.fanalbin.soedcare.model
 
 import android.os.Parcelable
@@ -11,11 +12,12 @@ data class Booking(
     val faskesName: String = "",
     val userName: String = "",
     val userPhone: String = "",
-    val userAddress: String = "", // Tambahkan field address
+    val userAddress: String = "",
     val bookingDate: String = "",
     val bookingTime: String = "",
     val notes: String = "",
     val queueNumber: Int = 0,
-    val status: String = "pending",
+    val queueNumberFormatted: String = "",
+    val status: String = "confirmed",
     val createdAt: Long = System.currentTimeMillis()
 ) : Parcelable
