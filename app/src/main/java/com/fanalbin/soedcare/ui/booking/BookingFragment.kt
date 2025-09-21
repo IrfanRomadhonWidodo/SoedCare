@@ -165,9 +165,10 @@ class BookingFragment : Fragment() {
                 .setTitle("Batalkan Booking")
                 .setMessage("Apakah Anda yakin ingin membatalkan booking? Data yang sudah diisi akan hilang.")
                 .setPositiveButton("Ya") { _, _ ->
-                    // Lanjutkan dengan back press default
-                    requireActivity().onBackPressed()
+                    // Tutup activity supaya kembali ke home
+                    requireActivity().finish()
                 }
+
                 .setNegativeButton("Tidak", null)
                 .show()
 

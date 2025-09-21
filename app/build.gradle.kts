@@ -61,4 +61,5 @@ dependencies {
     implementation("com.google.firebase:firebase-storage")
     implementation("com.google.firebase:firebase-database:21.0.0")
     implementation ("androidx.browser:browser:1.7.0")
+    implementation ("com.google.android.gms:play-services-tasks:17.2.0")
 }

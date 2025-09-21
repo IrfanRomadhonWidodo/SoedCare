@@ -23,6 +23,8 @@
     <color name="disabled_button_dark">#424242</color>
     <color name="gray_disabled">#9E9E9E</color>
     <color name="green_pressed">#43A047</color>
+    <color name="colorPrimary">#2196F3</color> <!-- Warna biru -->
+
 
 
 

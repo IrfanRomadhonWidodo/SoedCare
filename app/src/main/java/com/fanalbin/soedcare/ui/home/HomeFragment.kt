@@ -20,6 +20,7 @@ import com.fanalbin.soedcare.ArtikelActivity
 import com.fanalbin.soedcare.BookingActivity
 import com.fanalbin.soedcare.AntrianActivity
 import com.fanalbin.soedcare.FaskesActivity // Tambahkan import ini
+import com.fanalbin.soedcare.AskSoedcareActivity
 import android.os.Handler
 import android.os.Looper
 import androidx.viewpager2.widget.ViewPager2
@@ -168,6 +169,12 @@ class HomeFragment : Fragment() {
         // Sesuaikan dengan ID yang ada di layout Anda
         binding.faskesService.setOnClickListener {
             val intent = Intent(requireContext(), FaskesActivity::class.java)
+            startActivity(intent)
+        }
+
+        // Tambahkan listener untuk Tanya Soedcare
+        binding.askSoedcare.setOnClickListener {
+            val intent = Intent(requireContext(), AskSoedcareActivity::class.java)
             startActivity(intent)
         }
     }

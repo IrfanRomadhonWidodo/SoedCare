@@ -72,6 +72,16 @@
             android:name=".FaskesActivity"
             android:label="Fasilitas Kesehatan"
             android:theme="@style/Theme.SoedCare" />
+        <activity
+            android:name=".AskSoedcareActivity"
+            android:label="Tanya SoedCare"
+            android:exported="false" />
+
+        <activity
+            android:name=".ContainerActivity"
+            android:exported="false" />
+
+
 
 
     </application>

@@ -3,4 +3,6 @@
     <color name="disabled_button_dark">#555555</color> <!-- abu gelap untuk dark mode -->
     <color name="green_primary">#4CAF50</color>
     <color name="green_pressed">#388E3C</color> <!-- Lebih gelap lagi di dark mode -->
+    <color name="colorPrimary">#2196F3</color> <!-- Warna biru -->
+    <color name="gray">#757575</color> <!-- Warna abu-abu -->
 </resources>
