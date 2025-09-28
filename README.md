@@ -38,3 +38,22 @@ Dengan SOEDCARE, diharapkan akses masyarakat terhadap layanan publik dapat lebih
    ```bash
    git clone https://github.com/IrfanRomadhonWidodo/SoedCare.git
    cd SoedCare
+2. **Buka Project & Update SDK**
+- Jalankan **Android Studio**.  
+- Pilih **Open Project** dan arahkan ke folder `SoedCare`.  
+- Setelah project terbuka, buka file `app/build.gradle`.  
+- Ubah konfigurasi SDK menjadi:
+  ```gradle
+  android {
+      namespace "com.fanalbin.soedcare"
+      compileSdk 36
+
+      defaultConfig {
+          applicationId "com.fanalbin.soedcare"
+          minSdk 24
+          targetSdk 36
+          versionCode 1
+          versionName "1.0"
+      }
+  }
+
