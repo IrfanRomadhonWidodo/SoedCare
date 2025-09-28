@@ -1,3 +1,4 @@
+// QuestionDetailFragment.kt
 package com.fanalbin.soedcare.ui.ask_soedcare
 
 import android.os.Bundle
@@ -136,7 +137,6 @@ class QuestionDetailFragment : Fragment() {
         }
     }
 
-
     private fun loadAnswers() {
         questionId?.let { id ->
             firestore.collection("replies")
@@ -150,7 +150,7 @@ class QuestionDetailFragment : Fragment() {
                         answerList.add(answer)
                     }
 
-                    // ✅ Update reply count berdasarkan jumlah jawaban yang ada
+                    // Update reply count berdasarkan jumlah jawaban yang ada
                     binding.tvReplyCount.text = "${answerList.size} Jawaban"
 
                     if (answerList.isEmpty()) {
@@ -174,7 +174,6 @@ class QuestionDetailFragment : Fragment() {
             binding.tvQuestionTitle.text = q.title
             binding.tvQuestionContent.text = q.content
             binding.tvReplyCount.text = "${q.replyCount} Jawaban"
-
 
             // Format timestamp
             val dateFormat = SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault())
@@ -241,12 +240,14 @@ class QuestionDetailFragment : Fragment() {
                         firestore.collection("questions").document(question!!.id)
                             .update("replyCount", com.google.firebase.firestore.FieldValue.increment(1))
 
-
                         // If answered by doctor, update the flag
                         if (isDoctor) {
                             firestore.collection("questions").document(question!!.id)
                                 .update("answeredByDoctor", true)
                         }
+
+                        // 🔥 PERBAIKAN: Buat notifikasi untuk pemilik pertanyaan
+                        createNotificationForQuestionOwner(question!!.id, answerContent, userName, isDoctor)
 
                         // Clear input field
                         binding.etAnswer.text.clear()
@@ -265,6 +266,66 @@ class QuestionDetailFragment : Fragment() {
                 Toast.makeText(requireContext(), "Gagal memuat data pengguna: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
+
+    // 🔥 PERBAIKAN: Method untuk membuat notifikasi
+    private fun createNotificationForQuestionOwner(
+        questionId: String,
+        answerContent: String,
+        answeredBy: String,
+        isDoctor: Boolean
+    ) {
+        Log.d("Notification", "Creating notification for question: $questionId")
+
+        // Ambil data pertanyaan untuk dapatkan info penanya
+        firestore.collection("questions").document(questionId)
+            .get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val questionOwnerId = document.getString("userId")
+                    val questionTitle = document.getString("title") ?: ""
+                    val currentUserId = auth.currentUser?.uid
+
+                    Log.d("Notification", "Question owner: $questionOwnerId, current user: $currentUserId")
+
+                    // Hanya buat notifikasi jika penjawab bukan pemilik pertanyaan
+                    if (questionOwnerId != null && questionOwnerId != currentUserId) {
+
+                        // 🔥 generate doc id dulu
+                        val notificationRef = firestore.collection("notifications").document()
+                        val notificationId = notificationRef.id
+
+                        val notificationData = hashMapOf(
+                            "id" to notificationId,
+                            "userId" to questionOwnerId, // ID pemilik pertanyaan
+                            "questionId" to questionId,
+                            "questionTitle" to questionTitle,
+                            "answerContent" to answerContent,
+                            "answeredBy" to answeredBy,
+                            "isDoctor" to isDoctor,
+                            "timestamp" to Date(),
+                            "isRead" to false
+                        )
+
+                        // Simpan notifikasi langsung dengan ID
+                        notificationRef.set(notificationData)
+                            .addOnSuccessListener {
+                                Log.d("Notification", "✅ Notifikasi berhasil dibuat dengan ID: $notificationId")
+                            }
+                            .addOnFailureListener { e ->
+                                Log.e("Notification", "❌ Gagal membuat notifikasi", e)
+                            }
+                    } else {
+                        Log.d("Notification", "Tidak membuat notifikasi karena penjawab adalah pemilik pertanyaan atau owner null")
+                    }
+                } else {
+                    Log.e("Notification", "❌ Dokumen pertanyaan tidak ditemukan")
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.e("Notification", "❌ Gagal mengambil data pertanyaan", e)
+            }
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

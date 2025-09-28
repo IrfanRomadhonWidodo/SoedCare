@@ -63,4 +63,5 @@ dependencies {
     implementation ("androidx.browser:browser:1.7.0")
     implementation ("com.google.android.gms:play-services-tasks:17.2.0")
     implementation ("com.google.android.material:material:1.6.0")
+    implementation("com.google.firebase:firebase-messaging:23.4.0")
 }

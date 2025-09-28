@@ -23,6 +23,9 @@ import com.google.android.material.textfield.TextInputEditText
 import android.util.Base64
 import android.graphics.BitmapFactory
 import androidx.fragment.app.viewModels
+import android.content.pm.PackageManager
+import androidx.core.content.ContextCompat
+
 
 class EditProfileFragment : Fragment() {
     private val profileViewModel: ProfileViewModel by viewModels()
@@ -215,16 +218,41 @@ class EditProfileFragment : Fragment() {
     }
 
     private fun openCamera() {
-        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        if (takePictureIntent.resolveActivity(requireActivity().packageManager) != null) {
-            cameraLauncher.launch(takePictureIntent)
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                android.Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            if (takePictureIntent.resolveActivity(requireActivity().packageManager) != null) {
+                cameraLauncher.launch(takePictureIntent)
+            }
+        } else {
+            // Minta permission
+            requestPermissionLauncher.launch(android.Manifest.permission.CAMERA)
         }
     }
 
     private fun openGallery() {
-        val pickPhotoIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        galleryLauncher.launch(pickPhotoIntent)
+        val permission = if (android.os.Build.VERSION.SDK_INT >= 33) {
+            android.Manifest.permission.READ_MEDIA_IMAGES
+        } else {
+            android.Manifest.permission.READ_EXTERNAL_STORAGE
+        }
+
+        if (ContextCompat.checkSelfPermission(requireContext(), permission)
+            == PackageManager.PERMISSION_GRANTED
+        ) {
+            val pickPhotoIntent = Intent(
+                Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            )
+            galleryLauncher.launch(pickPhotoIntent)
+        } else {
+            requestPermissionLauncher.launch(permission)
+        }
     }
+
 
     private fun getImageUriFromBitmap(bitmap: android.graphics.Bitmap): Uri {
         val path = MediaStore.Images.Media.insertImage(
@@ -235,4 +263,15 @@ class EditProfileFragment : Fragment() {
         )
         return Uri.parse(path.toString())
     }
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                Toast.makeText(requireContext(), "Permission granted", Toast.LENGTH_SHORT).show()
+                // lanjut buka kamera/galeri sesuai kebutuhan
+            } else {
+                Toast.makeText(requireContext(), "Permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
+
 }

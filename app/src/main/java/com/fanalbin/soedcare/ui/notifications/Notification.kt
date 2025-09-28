@@ -1,13 +1,16 @@
-package com.fanalbin.soedcare.ui.notifications
+// Notification.kt
+package com.fanalbin.soedcare.model
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import java.util.Date
 
-class NotificationsViewModel : ViewModel() {
-
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is notifications Fragment"
-    }
-    val text: LiveData<String> = _text
-}
+data class Notification(
+    val id: String = "",
+    val userId: String = "",
+    val questionId: String = "",
+    val questionTitle: String = "",
+    val answerContent: String = "",
+    val answeredBy: String = "",
+    val isDoctor: Boolean = false,
+    val timestamp: Date = Date(),
+    val isRead: Boolean = false
+)
