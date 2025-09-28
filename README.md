@@ -18,16 +18,18 @@ Dengan SOEDCARE, diharapkan akses masyarakat terhadap layanan publik dapat lebih
 ---
 
 ## Fitur Utama
+- **Pendaftaran Antrian**  
+  Memudahkan masyarakat untuk mendaftar layanan kesehatan secara online tanpa harus datang langsung dan menunggu lama.  
+- **Forum Kesehatan**  
+  Wadah interaktif bagi pengguna untuk berdiskusi, berbagi pengalaman, serta mendapatkan informasi kesehatan dari komunitas maupun tenaga medis.  
 - **Autentikasi & Manajemen Akun**  
-  Registrasi, login, serta keamanan berbasis standar modern.
+  Registrasi, login, serta keamanan berbasis standar modern.  
 - **Dashboard Informasi**  
-  Menampilkan informasi penting dengan visualisasi yang jelas.
+  Menampilkan informasi penting dengan visualisasi yang jelas.  
 - **Notifikasi Real-time**  
-  Memberikan informasi terbaru kepada pengguna secara langsung.
-- **Manajemen Data**  
-  Menyediakan akses terhadap data dan layanan terkait secara terstruktur.
+  Memberikan informasi terbaru kepada pengguna secara langsung.  
 - **UI/UX Sederhana**  
-  Fokus pada kemudahan navigasi dan pengalaman pengguna.
+  Fokus pada kemudahan navigasi dan pengalaman pengguna.  
 
 ---
 
