@@ -1,5 +1,6 @@
 # SOEDCARE
 ![MockUp Aplikasi](MockUp_SoedCare.png)
+![MockUp Aplikasi](MockUp2_SoedCare.png)
 
 ## Latar Belakang
 Aplikasi layanan publik pemerintah sering kali memiliki tampilan yang kompleks, fitur yang terlalu banyak, serta alur yang tidak ramah bagi masyarakat umum. Hal ini membuat pengguna kesulitan dalam mengakses layanan yang sebenarnya esensial.  
