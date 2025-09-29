@@ -61,7 +61,11 @@ android {
 
     // ... (konfigurasi lain)
 }
-
+```
 ---
-## Demo Aplikasi 
+
+## Demo Aplikasi
 ![Demo Aplikasi](DemoAplikasi.gif)
+
+
+
