@@ -65,6 +65,7 @@ android {
 ---
 
 ## Demo Aplikasi
+⏳ Harap sabar, demo aplikasi membutuhkan waktu lebih lama untuk dimuat karena ukuran file yang besar. Anda juga bisa melihat file DemoAplikasi.gif untuk hasil yang lebih cepat.
 ![Demo Aplikasi](DemoAplikasi.gif)
 
 
