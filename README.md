@@ -37,7 +37,7 @@ Dengan SOEDCARE, diharapkan akses masyarakat terhadap layanan publik dapat lebih
 ## Petunjuk Penggunaan
 1. **Clone Repositori**
    ```bash
-   git clone https://github.com/IrfanRomadhonWidodo/SoedCare.git
+   git clone https://github.com/IrfanRomadhonWidodo/SoedCare
    cd SoedCare
 2. **Buka Project & Update SDK**
     - Jalankan **Android Studio**.  
