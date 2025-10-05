@@ -2,6 +2,13 @@
 ![MockUp Aplikasi](MockUp_SoedCare.png)
 ![MockUp Aplikasi](MockUp2_SoedCare.png)
 
+## Anggota Kelompok
+1. Alya Luthfi Kharimah (H1D023020)
+2. Irfan Romadhon Widodo (H1D023023)
+3. Essay Bina Mukti (H1D023114)
+
+---
+
 ## Latar Belakang
 Aplikasi layanan publik pemerintah sering kali memiliki tampilan yang kompleks, fitur yang terlalu banyak, serta alur yang tidak ramah bagi masyarakat umum. Hal ini membuat pengguna kesulitan dalam mengakses layanan yang sebenarnya esensial.  
 **SOEDCARE** hadir sebagai solusi dengan pendekatan _user-friendly_ dan terstruktur, memecah kompleksitas menjadi alur yang lebih sederhana, intuitif, serta mudah digunakan.
