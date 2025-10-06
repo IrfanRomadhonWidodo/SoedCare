@@ -12,6 +12,7 @@
         android:layout_marginStart="0dp"
         android:layout_marginEnd="0dp"
         android:background="#F8FFF8"
+        android:fitsSystemWindows="false"
         app:itemIconTint="@color/nav_item_color"
         app:itemTextColor="@color/nav_item_color"
         app:layout_constraintBottom_toBottomOf="parent"

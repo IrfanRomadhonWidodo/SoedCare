@@ -1,8 +1,10 @@
+//NotificationAdapter.kt
 package com.fanalbin.soedcare.ui.notifications
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.fanalbin.soedcare.R
@@ -11,7 +13,8 @@ import java.util.*
 
 class NotificationAdapter(
     private val notifications: List<Notification>,
-    private val onItemClick: (Notification) -> Unit
+    private val onItemClick: (Notification) -> Unit,
+    private val onSelectionChanged: () -> Unit  // Callback untuk perubahan seleksi
 ) : RecyclerView.Adapter<NotificationAdapter.NotificationViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationViewHolder {
@@ -34,6 +37,7 @@ class NotificationAdapter(
         private val tvAnswerPreview: TextView = itemView.findViewById(R.id.tv_answer_preview)
         private val tvAnsweredBy: TextView = itemView.findViewById(R.id.tv_answered_by)
         private val tvDoctorBadge: TextView = itemView.findViewById(R.id.tv_doctor_badge)
+        private val cbSelect: CheckBox = itemView.findViewById(R.id.cb_select)
 
         fun bind(notification: Notification) {
             tvNotificationTitle.text = "Balasan pada pertanyaan Anda"
@@ -60,8 +64,23 @@ class NotificationAdapter(
             // Badge dokter
             tvDoctorBadge.visibility = if (notification.isDoctor) View.VISIBLE else View.GONE
 
-            // Klik
-            itemView.setOnClickListener { onItemClick(notification) }
+            // Checkbox seleksi
+            cbSelect.isChecked = notification.isSelected
+            cbSelect.setOnCheckedChangeListener { _, isChecked ->
+                val index = adapterPosition
+                if (index != RecyclerView.NO_POSITION) {
+                    val updated = notification.copy(isSelected = isChecked)
+                    (notifications as MutableList)[index] = updated
+                    notifyItemChanged(index)
+                    onSelectionChanged()
+                }
+            }
+
+
+            // Klik item untuk buka detail
+            itemView.setOnClickListener {
+                onItemClick(notification)
+            }
         }
     }
 }

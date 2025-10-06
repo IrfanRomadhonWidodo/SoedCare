@@ -57,6 +57,7 @@
             android:textColor="#424242"
             android:textSize="14sp" />
 
+        <!-- Elemen-elemen berikut akan disembunyikan di tampilan awal -->
         <TextView
             android:id="@+id/tv_answer_preview"
             android:layout_width="match_parent"
@@ -66,13 +67,16 @@
             android:maxLines="2"
             android:text="Demam berdarah biasanya disertai dengan nyeri sendi, ruam merah, dan trombosit rendah..."
             android:textColor="#616161"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="gone" />
 
         <LinearLayout
+            android:id="@+id/layout_answer_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/tv_answered_by"
@@ -92,8 +96,17 @@
                 android:paddingVertical="2dp"
                 android:text="Dokter"
                 android:textColor="@android:color/white"
-                android:textSize="10sp"
-                android:visibility="gone" />
+                android:textSize="10sp" />
         </LinearLayout>
+
+        <!-- Checkbox untuk seleksi -->
+        <CheckBox
+            android:id="@+id/cb_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="8dp"
+            android:text="Pilih"
+            android:textSize="12sp" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
